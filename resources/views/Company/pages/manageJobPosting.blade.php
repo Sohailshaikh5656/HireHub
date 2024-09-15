@@ -250,8 +250,9 @@
                   <table class="table align-items-center justify-content-center mb-0">
                     <thead>
                       <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Project</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Budget</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Job Post Name</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Job category</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
                         <th></th>
