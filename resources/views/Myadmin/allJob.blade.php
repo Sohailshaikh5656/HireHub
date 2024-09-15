@@ -45,6 +45,33 @@
                     <div class="card-body">
                       <h4 class="card-title">All Job Category </h4>
                       <div class="table-responsive">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @elseif (session('deleted'))
+                        <div class="alert alert-danger">
+                            <ul>
+                              <li>Category Deleted</li>
+                              @php
+                              session(['deleted'=>false]);
+                              @endphp
+                            </ul>
+                        </div>
+                        @elseif (session('addjob'))
+                        <div class="alert alert-success">
+                          <ul>
+                                  <li>Category Updated</li>
+                                  @php
+                                    session(['addSubjob'=>false]);
+                                    @endphp
+                          </ul>
+                      </div>
+                    @endif
                         <table class="table">
                           <thead>
                             <tr>
@@ -73,7 +100,7 @@
                                 }
                               @endphp </td>
                               <td> <a class="btn btn-warning badge badge-outline-danger" href="/Myadmin/editJob/{{ $job->id }}">Edit</a> </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/delete/{{ $job->id }}">Delete</a> </td>
+                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/deleteJob/{{ $job->id }}" onclick="return confirm('Are you sure you want to delete this job category?');">Delete</a> </td>
                             </tr>
                            
 

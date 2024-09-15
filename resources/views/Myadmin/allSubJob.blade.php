@@ -45,6 +45,35 @@
                     <div class="card-body">
                       <h4 class="card-title">All Sub Category </h4>
                       <div class="table-responsive">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @elseif (session('subjob'))
+                        <div class="alert alert-success">
+                          <ul>
+                                  <li>Job Updated</li>
+                                  @php
+                                    session(['subjob'=>false]);
+                                  @endphp
+                                  
+                                </ul>
+                            </div>
+                            @elseif (session('delete'))
+                        <div class="alert alert-success">
+                          <ul>
+                                  <li>Job deleted !</li>
+                                  @php
+                                    session(['delete'=>false]);
+                                  @endphp
+                                  
+                                </ul>
+                            </div>
+                          @endif
                         <table class="table">
                           <thead>
                             <tr>
@@ -53,50 +82,32 @@
                               <th> Description </th>
                               <th> Status </th>
                               <th> Category_id</th>
-                              <th> View More </th>
+                             
                               <th> Edit </th>
                               <th> Delete </th>
                             </tr>
                           </thead>
                           <tbody>
+                            @foreach ($jd as $jd)
                             <tr>
-                              <td>1</td>
-                              <td> Software Engineer </td>
-                              <td> Related to IT computer Science </td>
+                              <td>{{$jd->id}}</td>
+                              <td>{{$jd->job_sub_category}}</td>
+                              <td> {{$jd->description}} </td>
+                              @if ($jd->status==1)
                               <td class="badge badge-outline-success"> Active </td>
-                              <td> 1 </td>
-                              <td> <a class="btn btn-warning badge badge-outline-warning" href="#">View More</a> </td>
-                              <td> <a class="btn btn-primary badge badge-outline-primary" href="#">Edit</a> </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
+                              @else
+                              <td class="badge badge-outline-danger"> Inactive </td>
+                              @endif
+                             
+                              <td> {{$jd->jobcategory_id}} </td>
+                              {{-- <td> <a class="btn btn-warning badge badge-outline-warning" href="#">View More</a> </td> --}}
+                              <td> <a class="btn btn-primary badge badge-outline-primary" href="/Myadmin/editSubJob/{{$jd->id}}">Edit</a> </td>
+                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/deleteSubJob/{{$jd->id}}" onclick="return confirm('Are you sure you want to delete this job Post?');">Delete</a> </td>
                             </tr>
                            
 
 
-                            <tr>
-                                <td>3</td>
-                                <td> Java devs </td>
-                                <td> Related to IT computer Science </td>
-                                <td class="badge badge-outline-success"> Active </td>
-                                <td> 1 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-warning" href="#">View More</a> </td>
-                                <td> <a class="btn btn-primary badge badge-outline-primary" href="#">Edit</a> </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                              </tr>
-                             
-                              
-                              <tr>
-                                <td>2</td>
-                                <td> Python Devs </td>
-                                <td> Related to IT computer Science </td>
-                                <td class="badge badge-outline-success"> Active </td>
-                                <td> 1 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-warning" href="#">View More</a> </td>
-                                <td> <a class="btn btn-primary badge badge-outline-primary" href="#">Edit</a> </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                              </tr>
-                             
-  
-                             
+                            @endforeach 
                           </tbody>
                         </table>
                       </div>
