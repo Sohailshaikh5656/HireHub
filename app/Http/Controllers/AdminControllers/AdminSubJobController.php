@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminControllers;
 use App\Models\JobSubCategories;
+use Illuminate\Support\Facades\DB;
 use App\Models\JobCategories;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
@@ -28,11 +29,17 @@ class AdminSubJobController extends Controller
         $addjob->jobcategory_id = $validateData['category'];
         $addjob->save();
         session(['addSubjob'=>true]);
-        return redirect('/Myadmin/addSubJob');
+        return redirect('/Myadmin/allSubJob');
 
     }
     public function allSubJob() {
-        $data = JobSubCategories::all();  // Use the correct model name 'JobCatagories'
+        $data = DB::select("
+        SELECT jobsubcategories.id, jobsubcategories.job_sub_category, jobsubcategories.description,
+        jobsubcategories.status, jobcategories.category_name as category_name 
+        FROM jobsubcategories 
+        JOIN jobcategories
+        ON jobsubcategories.jobcategory_id = jobcategories.id
+        ");  // Use the correct model name 'JobCatagories'
          return view('Myadmin.allSubJob', ['jd' => $data]);
     }
     public function editSubJob($id){

@@ -12,7 +12,7 @@
               <span class="count bg-success"></span>
             </div>
             <div class="profile-name">
-              <h5 class="mb-0 font-weight-normal">Henry Klein</h5>
+              <h5 class="mb-0 font-weight-normal" style="text-transform: capitalize">{{session('admin_name')}}</h5>
               <span>Admin Member</span>
             </div>
           </div>
@@ -173,7 +173,7 @@
       </li>
 
       <li class="nav-item menu-items">
-        <a class="nav-link" href="/Myadmin/login">
+        <a class="nav-link" href="/Myadmin/logout">
           <span class="menu-icon">
             <i class="mdi mdi-logout"></i>
           </span>

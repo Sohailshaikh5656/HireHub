@@ -55,8 +55,8 @@ class AdminAddJobController extends Controller
         $data->description = $validateData['description'];
         $data->status = $validateData['status'];
         $data->save();
-        session(['job'=>true]);
-        return redirect('/Myadmin/addJob');
+        session(['jobUpdated'=>true]);
+        return redirect('/Myadmin/allJob');
     }
     public function deleteJob($id){
         $data = JobCategories::findOrFail($id);

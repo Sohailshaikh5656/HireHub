@@ -37,6 +37,9 @@ class AdminDaoController extends Controller
         if($user && Hash::check($auth['password'], $user->password)){
             session(['admin_login'=>true]);
             session(['admin_id'=>$user->id]);
+            //Admin sensetive info
+            session(['admin_email'=>$user->email]);
+            session(['admin_name'=>$user->name]);
             return redirect('/Myadmin/adminDashboard');
         }
         else{

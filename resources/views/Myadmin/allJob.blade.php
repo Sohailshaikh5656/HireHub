@@ -62,12 +62,12 @@
                               @endphp
                             </ul>
                         </div>
-                        @elseif (session('addjob'))
+                        @elseif (session('jobUpdated'))
                         <div class="alert alert-success">
                           <ul>
-                                  <li>Category Updated</li>
+                                  <li>Job Updated Successfully !</li>
                                   @php
-                                    session(['addSubjob'=>false]);
+                                    session(['jobUpdated'=>false]);
                                     @endphp
                           </ul>
                       </div>

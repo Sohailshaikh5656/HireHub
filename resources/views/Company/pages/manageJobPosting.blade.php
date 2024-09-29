@@ -254,7 +254,10 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Job category</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">View More</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Edit</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Delete</th>
+                        {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th> --}}
                         <th></th>
                       </tr>
                     </thead>
@@ -263,20 +266,32 @@
                         <td>
                           <div class="d-flex px-2">
                             <div>
-                              <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm rounded-circle me-2" alt="spotify">
+                              {{-- <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm rounded-circle me-2" alt="spotify"> --}}
                             </div>
                             <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Spotify</h6>
+                              <h6 class="mb-0 text-sm">Python Devs</h6>
                             </div>
                           </div>
                         </td>
                         <td>
-                          <p class="text-sm font-weight-bold mb-0">$2,500</p>
+                          <p class="text-sm font-weight-bold mb-0">IT</p>
                         </td>
                         <td>
-                          <span class="text-xs font-weight-bold">working</span>
+                          <span class="text-xs font-weight-bold">Work details</span>
                         </td>
-                        <td class="align-middle text-center">
+                        <td>
+                          <span class="text-xs font-weight-bold">Active</span>
+                        </td>
+                        <td>
+                          <span class="text-xs font-weight-bold"><a class="btn btn-warning btn btn-outline-success">Viewmore</a></span>
+                        </td>
+                        <td>
+                          <span class="text-xs font-weight-bold"><a class="btn btn-primary btn btn-outline-success">Edit</a></span>
+                        </td>
+                        <td>
+                          <span class="text-xs font-weight-bold"><a class="btn btn-danger btn btn-outline-success">Delete</a></span>
+                        </td>
+                        {{-- <td class="align-middle text-center">
                           <div class="d-flex align-items-center justify-content-center">
                             <span class="me-2 text-xs font-weight-bold">60%</span>
                             <div>
@@ -285,14 +300,14 @@
                               </div>
                             </div>
                           </div>
-                        </td>
-                        <td class="align-middle">
+                        </td> --}}
+                        {{-- <td class="align-middle">
                           <button class="btn btn-link text-secondary mb-0">
                             <i class="fa fa-ellipsis-v text-xs"></i>
                           </button>
-                        </td>
+                        </td> --}}
                       </tr>
-                      <tr>
+                      {{-- <tr>
                         <td>
                           <div class="d-flex px-2">
                             <div>
@@ -456,7 +471,7 @@
                             <i class="fa fa-ellipsis-v text-xs"></i>
                           </button>
                         </td>
-                      </tr>
+                      </tr> --}}
                     </tbody>
                   </table>
                 </div>

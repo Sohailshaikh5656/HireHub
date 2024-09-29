@@ -99,7 +99,7 @@
                               </div>
                               <div class="form-check">
                                 <label class="form-check-label">
-                                  <input type="radio" class="form-check-input" name="status" id="optionsRadios2" value=2 {{ $cata->status == 0 ? 'checked' : '' }}> Inactive </label>
+                                  <input type="radio" class="form-check-input" name="status" id="optionsRadios2" value=0 {{ $cata->status == 0 ? 'checked' : '' }}> Inactive </label>
                               </div>
                         </div>
                         

@@ -66,15 +66,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @elseif (session('addSubjob'))
-                        <div class="alert alert-success">
-                          <ul>
-                                  <li>Category Updated</li>
-                                  @php
-                                    session(['addSubjob'=>false]);
-                                    @endphp
-                          </ul>
-                      </div>
+                        
                     @endif
                         <div class="form-group row">
                           <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Catagory Name</label>

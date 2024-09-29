@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminControllers\AdminManageUserController;
 use App\Http\Controllers\AdminControllers\AdminManageAgencyController;
 use App\Http\Controllers\AdminControllers\AdminAddJobController;
 use App\Http\Controllers\AdminControllers\AdminSubJobController;
+use App\Http\Controllers\AdminControllers\AdminLogoutController;
 
 //Company controllers
 
@@ -66,6 +67,9 @@ Route::put("Myadmin/updateSubJob/{id}",[AdminSubJobController::class,'updateSubJ
 Route::get('Myadmin/deleteSubJob/{id}',[AdminSubJobController::class,'deleteSubJob'] );
 
 
+Route::get("Myadmin/logout",[AdminLogoutController::class,'logout']);
+
+
 Route::view('Myadmin/feedback', 'Myadmin.feedback');
 Route::view('Myadmin/inquiry', 'Myadmin.inquiry');
 Route::view('Myadmin/reportAndAna', 'Myadmin.reportAndAna');
@@ -77,11 +81,19 @@ Route::view('Myadmin/addAdmin', 'Myadmin.addAdmin');
 Route::post('Myadmin/addAdmin',[AdminDaoController::class,'addAdmin'])->name('addAdmin');
 
 
-//Comapny Routes
+//Comapany Routes
 
 Route::get("Company/Dashboard",[CompanyDashboardController::class,'getDashboard']);
 
 Route::get("Company/newJobPosting",[CompanyManageJobPosting::class,'newJobPosting']);
 Route::get("Company/manageJobPosting",[CompanyManageJobPosting::class,'manageJobPosting']);
+Route::view('Company/manageJobApplication', 'Company.pages.manageJobApplication');;
+
+//User Routes
+
+Route::view("user/Home","user.index");
+Route::view("user/login","user.login");
+Route::view("user/register","user.register");
+Route::view("user/addProfile","user.addUserProfile");
 
 require __DIR__.'/auth.php';

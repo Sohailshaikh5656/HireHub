@@ -26,6 +26,12 @@
         text-transform: uppercase;
         color: #ffffff;
     }
+    td{
+      color: #f7f7f2;
+    }
+    td:hover{
+      color: #f2e9e4;
+    }
     </style>
   </head>
   <body>
@@ -63,8 +69,19 @@
                                   
                                 </ul>
                             </div>
-                            @elseif (session('delete'))
+
+                            @elseif (session('addSubjob'))
                         <div class="alert alert-success">
+                          <ul>
+                                  <li>Sub Job Added Successfully !</li>
+                                  @php
+                                    session(['addSubjob'=>false]);
+                                    @endphp
+                          </ul>
+                      </div>
+
+                            @elseif (session('delete'))
+                        <div class="alert alert-danger">
                           <ul>
                                   <li>Job deleted !</li>
                                   @php
@@ -99,7 +116,7 @@
                               <td class="badge badge-outline-danger"> Inactive </td>
                               @endif
                              
-                              <td> {{$jd->jobcategory_id}} </td>
+                              <td> {{$jd->category_name}} </td>
                               {{-- <td> <a class="btn btn-warning badge badge-outline-warning" href="#">View More</a> </td> --}}
                               <td> <a class="btn btn-primary badge badge-outline-primary" href="/Myadmin/editSubJob/{{$jd->id}}">Edit</a> </td>
                               <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/deleteSubJob/{{$jd->id}}" onclick="return confirm('Are you sure you want to delete this job Post?');">Delete</a> </td>
