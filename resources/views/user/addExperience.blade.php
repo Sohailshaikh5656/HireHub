@@ -100,7 +100,7 @@
             color: #A9A9A9;
         }
         .form1 {
-              width: clamp(320px, 30%, 420px);
+            width: clamp(480px, 45%, 630px);
               margin: 0 auto;
               padding: 1.5rem;
               border-radius: 0.35rem;
@@ -161,7 +161,7 @@
             text-align: center;
         }
         .site-section {
-        height: 100vh; /* Full viewport height */
+        height: 150vh; /* Full viewport height */
         background-size: cover; /* Cover the entire section */
         background-repeat: no-repeat; /* Prevent the image from repeating */
         background-position: center; /* Center the image */
@@ -218,20 +218,20 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Login Page</h1>
+                    <h1 class="text-white font-weight-bold">Add Experience Page</h1>
                     <div class="custom-breadcrumbs">
                         <a href="/user/Home">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>User Login Page</strong></span>
+                        <span class="text-white"><strong>User Experience Page</strong></span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="site-section" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
+    <section class="site-section vh-200" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
         
                         {{-- <h2 class="mb-4" style="color: #fff;">Register To Hire Hub</h2> --}}
-                        <form action="/user/userAuthChk" class="form1" method="post">
+                        <form action="/user/storeExperience" class="form1" method="post">
                             @csrf
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -250,10 +250,11 @@
                                         @php
                                         session(['error'=>false]);
                                       @endphp
+                                      
                                 </ul>
                             </div>
                             @endif
-                            <h1 class="text-center1" style="color:#fff;">User Login Page</h1>
+                            <h1 class="text-center1" style="color:#fff;">Add Education</h1>
                             <!-- Progress Bar -->
                             {{-- <div class="progaessbar1">
                                 <div class="progress1" id="progress1"></div>
@@ -268,23 +269,53 @@
                             <!-- Personal Info 1 -->
                             <div class="form-step1 form-step-active1">
                                 <div class="input-group1">
-                                    <label for="email1">Email</label>
-                                    <input type="email" name="email" id="username1">
+                                    <label for="email1">Post Name </label>
+                                    <input type="text" name="postName" id="username1" placeholder="Developer/Sales Representative">
                                 </div>
                                 <div class="input-group1">
-                                    <label>Password</label>
-                                    <input type="password" name="password" id="password1">
+                                    <label for="email1">Post Description </label>
+                                    <textarea name="postDescription" class="form-control" placeholder="Enter details about posts"></textarea>
                                 </div>
                                 <div class="input-group1">
-                                    <a class="forget" href="">Forget Passord ?</a>
+                                    <label>Department Name</label>
+                                    <input type="text" name="departmentName" id="password1">
                                 </div>
-                                <div class="btns-group1">
-                                    <button type="submit" value="Log In" class="btn btn-primary p-3" >Log In</button>
+                                <div class="row" style="margin-top:-30px; margin-bottom:-30px">
+                                    <div class="input-group1 col-6" >
+                                        <label for="email1">Starting Date </label>
+                                        <input type="date" name="startingDate" id="username1">
+                                    </div>
+
+                                    <div class="input-group1 col-6">
+                                        <label>Ending Date </label>
+                                        <input type="date" name="endingDate" id="password1" >
+                                    </div>
+                                  
                                 </div>
 
+
+                                <div class="row" style="margin-top:-30px; margin-bottom:-30px">
+                                    <div class="input-group1 col-6" >
+                                        <label for="email1">Industry </label>
+                                        <input type="text" name="industry" id="username1">
+                                    </div>
+
+                                    <div class="input-group1 col-6">
+                                        <label>Institution / Organization Name </label>
+                                        <input type="text" name="institutionName" id="password1" >
+                                    </div>
+                                  
+                                </div>
+
+                                
                                 <div class="input-group1">
-                                  <a class="">Have an Account ? </a><a href="/user/register" class="forget">&nbsp;Register</a>
-                              </div>
+                                    <label>Institution / Organization Address</label>
+                                    <textarea name="institutionAddress" class="form-control"></textarea>
+                                </div>
+                                
+                                <div class="btns-group1">
+                                    <button type="submit" value="Log In" class="btn btn-primary p-3" >Add Education</button>
+                                </div>
                             </div>
                     
                         </form>

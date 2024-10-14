@@ -8,14 +8,7 @@ use App\Models\JobCategories;
 class AdminAddJobController extends Controller
 {
     public function addJob(){
-        $admin_chk = new AdminDaoController;
-        $i = $admin_chk->admin_login_chk();
-        if($i==1){
-            return view('Myadmin.addJob');
-        }
-        else{
-            return redirect('Myadmin/login');
-        }
+        return view('Myadmin.addJob');
     }
 
     public function store_job(Request $request){

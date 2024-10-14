@@ -201,9 +201,6 @@
     height: 16px; /* Set a specific height */
 }
 
-button{
-    border: none;
-}
 
     </style>
 </head>
@@ -218,10 +215,10 @@ button{
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Register & Profile</h1>
+                    <h1 class="text-white font-weight-bold">Agency Register & Profile</h1>
                     <div class="custom-breadcrumbs">
-                        <a href="#">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>Register & Profile</strong></span>
+                        <a href="/user/Home">Home</a> <span class="mx-2 slash">/</span>
+                        <span class="text-white"><strong>Agency Register & Profile</strong></span>
                     </div>
                 </div>
             </div>
@@ -231,7 +228,7 @@ button{
     <section class="site-section" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
         
                         {{-- <h2 class="mb-4" style="color: #fff;">Register To Hire Hub</h2> --}}
-                        <form action="/user/regsiterUser" class="form1" method="post"  enctype="multipart/form-data">
+                        <form action="/user/regsiterAgency" class="form1" method="post" enctype="multipart/form-data">
                             @csrf
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -251,7 +248,7 @@ button{
                                 <div class="progress-step1" data-title="Contact"></div>
                                 <div class="progress-step1" data-title="Image"></div>
                                 <div class="progress-step1" data-title="State"></div>
-                                <div class="progress-step1" data-title="Address"></div>
+                                
                             </div>
                             <!-- Steps -->
                             <!-- Personal Info 1 -->
@@ -266,27 +263,26 @@ button{
                                 </div>
                                 <div class="input-group1">
                                     <label>Confirm Password</label>
-                                    <input type="password" name="confirmpassword" id="password1">
+                                    <input type="confirmpassword" name="confirmpassword" id="password1">
                                 </div>
                                 <div class="btns-group1">
-                                    {{-- <a href="#" class="btn1 btn-next1 width-50 ml-auto btn btn-primary" style="width:180px">Next</a> --}}
-                                    <button type="button" class="btn1 btn-next1">Next</button>
+                                    <a href="#" class="btn1 btn-next1 width-50 ml-auto btn btn-primary" style="width:180px">Next</a>
                                 </div>
                             </div>
                             <!-- Personal Info 2 -->
                     
                             <div class="form-step1">
                                 <div class="input-group1">
-                                    <label for="fname1">First Name</label>
-                                    <input type="text" name="fname" id="fname1">
+                                    <label for="agencyname">Ageny Name</label>
+                                    <input type="text" name="agencyname" id="fname1">
                                 </div>
                                 <div class="input-group1">
-                                    <label>Last Name</label>
-                                    <input type="text" name="lname" id="lname1">
+                                    <label>Owner Name</label>
+                                    <input type="text" name="ownername" id="lname1">
                                 </div>
                                 <div class="btns-group1">
-                                    <button type="button" class="btn1 btn-prev1">Previous</button>
-                                    <button type="button" class="btn1 btn-next1">Next</button>
+                                    <a href="#" class="btn1 btn-prev1">Previous</a>
+                                    <a href="#" class="btn1 btn-next1">Next</a>
                                 </div>
                             </div>
                     
@@ -298,20 +294,14 @@ button{
                                     <input type="number" name="contact" id="state1">
                                 </div>
                                 <div class="input-group1">
-                                    <label>Gender</label>
-                                    <div class="radio-group">
-                                        <input type="radio" name="gender" id="male" value="male">
-                                        <label for="male">Male</label>
-                                        
-                                        <input type="radio" name="gender" id="female" value="female">
-                                        <label for="female">Female</label>
-                                    </div>
+                                  <label for="address1">Address</label>
+                                  <textarea name="address" id="" cols="40" rows="3" class="form-control"></textarea>
                                 </div>
                                 
                                 
                                 <div class="btns-group1">
-                                    <button type="button" class="btn1 btn-prev1">Previous</button>
-                                    <button type="button" class="btn1 btn-next1">Next</button>
+                                    <a href="#" class="btn1 btn-prev1">Previous</a>
+                                    <a href="#" class="btn1 btn-next1">Next</a>
                                 </div>
                             </div>
                     
@@ -320,16 +310,16 @@ button{
                     
                             <div class="form-step1">
                                 <div class="input-group1">
-                                    <label for="state1">Dob</label>
-                                    <input type="date" name="dob" id="dob" class="dob">
+                                    <label for="state1">Establish Date</label>
+                                    <input type="date" name="est_date" id="dob" class="dob">
                                 </div>
                                 <div class="input-group1">
-                                      <label for="state1">Profile Image</label>
+                                      <label for="state1">Profile Image/ Company Logo</label>
                                     <input type="file" name="profileImage" id="dob" class="">
                                 </div>
                                 <div class="btns-group1">
-                                    <button type="button" class="btn1 btn-prev1">Previous</button>
-                                    <button type="button" class="btn1 btn-next1">Next</button>
+                                    <a href="#" class="btn1 btn-prev1">Previous</a>
+                                    <a href="#" class="btn1 btn-next1">Next</a>
                                 </div>
                             </div>
                     
@@ -356,28 +346,14 @@ button{
                                     </select>
                                 </div>
                                 <div class="btns-group1">
-                                    <button type="button" class="btn1 btn-prev1">Previous</button>
-                                    <button type="button" class="btn1 btn-next1">Next</button>
+                                    <a href="#" class="btn1 btn-prev1">Previous</a>
+                                    <button type="submit" style="height:58px; color:#fff; margin-top:13px" class="btn btn-primary" id="submitBtn">Submit</button>
                                 </div>
                             </div>
                     
                             <!-- Personal Info 6 -->
                     
                     
-                            <div class="form-step1">
-                                <div class="input-group1">
-                                    <label for="address1">Address</label>
-                                    <textarea name="address" id="" cols="40" rows="3" class="form-control"></textarea>
-                                </div>
-                                <div class="input-group1">
-                                    <label>Zip Code</label>
-                                    <input type="text" name="zip1" id="zip1">
-                                </div>
-                                <div class="btns-group1">
-                                    <button type="button" class="btn1 btn-prev1">Previous</button>
-                                    <button type="submit" style="height:58px; color:#fff; margin-top:13px" class="btn btn-primary" id="submitBtn">Submit</button>
-                                </div>
-                            </div>
                         </form>
                    
     </section>
@@ -385,8 +361,9 @@ button{
     <!-- FOOTER -->
     @include('user.common.footer')
 </div>
-<script>
- document.addEventListener('DOMContentLoaded', () => {
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', () => {
     const prevBtns1 = document.querySelectorAll(".btn-prev1");
     const nextBtns1 = document.querySelectorAll(".btn-next1");
     const progress1 = document.getElementById("progress1");
@@ -429,6 +406,7 @@ button{
         })
     }
 });
+
 
 </script>
 </body>

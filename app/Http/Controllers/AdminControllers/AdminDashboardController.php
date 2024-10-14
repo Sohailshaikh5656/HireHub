@@ -5,19 +5,20 @@ use App\Http\Controllers\AdminControllers\AdminDaoController;
 use App\Http\Controllers\Controller; 
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\AdminControllers\AdminAuth; 
 
 class AdminDashboardController extends Controller
 {
+    // public function __construct(){
+    //     $auth = new AdminAuth();
+    // }
     
     public function dashboard(){
-        $admin_chk = new AdminDaoController;
-        $i = $admin_chk->admin_login_chk();
-        if($i==1){
-            return view('Myadmin.index');
+        if(session('admin_login')){
+            return view('Myadmin.index');  
         }
         else{
-            return redirect('Myadmin/login');
+            return redirect("/Myadmin/login");
         }
-        
     }
 }

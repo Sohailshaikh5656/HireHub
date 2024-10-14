@@ -218,10 +218,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Login Page</h1>
+                    <h1 class="text-white font-weight-bold">Agency Login Page</h1>
                     <div class="custom-breadcrumbs">
                         <a href="/user/Home">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>User Login Page</strong></span>
+                        <span class="text-white"><strong>Agency Login Page</strong></span>
                     </div>
                 </div>
             </div>
@@ -231,31 +231,25 @@
     <section class="site-section" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
         
                         {{-- <h2 class="mb-4" style="color: #fff;">Register To Hire Hub</h2> --}}
-                        <form action="/user/userAuthChk" class="form1" method="post">
-                            @csrf
-                            @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @endif
+                        <form action="/user/agencyAuthChk" class="form1" method="post">
                             @if (session('error'))
 
                             <div class="alert alert-danger">
                                 <ul>
                                         <li>{{session('error')}}</li>
                                         @php
-                                        session(['error'=>false]);
-                                      @endphp
+                                              session()->forget('error');
+                                        @endphp
                                 </ul>
                             </div>
                             @endif
-                            <h1 class="text-center1" style="color:#fff;">User Login Page</h1>
+                            @php
+                                echo session('agency_login');
+                            @endphp
+                            @csrf
+                            <h1 class="text-center1" style="color:#fff;">Agency Login Page</h1>
                             <!-- Progress Bar -->
-                            {{-- <div class="progaessbar1">
+                            {{-- <div class="progressbar1">
                                 <div class="progress1" id="progress1"></div>
                                 <div class="progress-step1 progress-step-active1" data-title="Email"></div>
                                 <div class="progress-step1" data-title="Name"></div>
@@ -279,11 +273,11 @@
                                     <a class="forget" href="">Forget Passord ?</a>
                                 </div>
                                 <div class="btns-group1">
-                                    <button type="submit" value="Log In" class="btn btn-primary p-3" >Log In</button>
+                                    <button type="sybmit" value="Log In" class="btn btn-primary p-3" >Login</button>
                                 </div>
 
                                 <div class="input-group1">
-                                  <a class="">Have an Account ? </a><a href="/user/register" class="forget">&nbsp;Register</a>
+                                  <a class="">Have an Account ? </a><a href="" class="forget">&nbsp;Register</a>
                               </div>
                             </div>
                     

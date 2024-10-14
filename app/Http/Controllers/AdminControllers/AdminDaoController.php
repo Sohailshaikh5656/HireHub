@@ -10,6 +10,7 @@ use App\Models\Myadmin;
 class AdminDaoController extends Controller
 {
     
+    
     public function addAdmin(Request $request){
         $validateData = $request->validate([
             'name'=>'required|string|max:255',

@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\DB;
 use App\Models\JobCategories;
 use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
+use App\Http\Controllers\AdminControllers\AdminAuth; 
+
 
 class AdminSubJobController extends Controller
 {
+    
+
     public function addjobSubCategory(){
         $data = JobCategories::all();
         return view('Myadmin.addSubJob',['jd'=>$data]);
