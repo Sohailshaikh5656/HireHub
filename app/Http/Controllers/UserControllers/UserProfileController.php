@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\education;
 use App\Models\experience;
+use App\Models\certificate;
+use App\Models\skill;
 class UserProfileController extends Controller
 {
     public function userProfile(){
@@ -125,5 +127,86 @@ class UserProfileController extends Controller
             return redirect("/user/userProfile");
         }
     }
+
+
+    public function addCertificte(){
+        if(session('user_login')){
+            return view("user.addCertification");
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
+    public function storecertificate(Request $req){
+        $ValidateData = $req->validate([
+            'cname'=>'required|string|min:3',
+            'cdes'=>'required|string|min:10',
+            'cdate'=>'required'
+        ]);
+        if($ValidateData && session('user_login')){
+            $newdata = new certificate();
+            //dd($newdata); // Check if the object is instantiated correctly
+
+            $newdata->certificate_name = $ValidateData['cname'];
+            $newdata->description = $ValidateData['cdes']; // Fix this line
+            $newdata->completion_date = $ValidateData['cdate'];
+            $newdata->user_id = (int) session('user_id');
+            $newdata->save();
+            
+            // $newData->user_id = (int) session('user_id');
+            // $newData->save();
+            return redirect("/user/userProfile");
+        }
+        else{
+            session(['error'=>"Error in Data Validation ot Login"]);
+            return redirect("/user/certificate");
+        }
+    }
+
+    public function addSkill(){
+        if(session("user_login")){
+            return view("user.addSkill");
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
+    public function storeSkill(Request $req) {
+        // Validate the input
+        $ValidateData = $req->validate([
+            'skill' => 'required|string|min:3'
+        ]);
+    
+        // Get the user ID from the session
+        $user_id = (int) session("user_id");
+    
+        // Find the skill record for the user
+        $oldData = skill::find($user_id); // Use find instead of findOrFail
+    
+        if ($oldData) {
+            // Get existing skills and convert to array
+            $oldskill = $oldData->skill ?? ''; // Use null coalescing operator
+            $array = array_map('trim', explode(',', $oldskill)); // Trim each skill
+            
+            // Add the new skill
+            $array[] = trim(strtolower($ValidateData['skill']));
+            
+            // Remove duplicates if needed
+            $array = array_unique($array);
+    
+            // Join the skills back into a string
+            $oldData->skill = implode(',', $array);
+            $oldData->save();
+
+            return redirect("/user/userProfile");
+            //return response()->json(['message' => 'Skill updated successfully!']);
+        } else {
+            session(['error'=>"Error in Data Validation ot Login"]);
+            return redirect("/user/certificate");
+        }
+    }
+    
     
 }

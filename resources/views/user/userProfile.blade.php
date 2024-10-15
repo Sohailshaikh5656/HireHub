@@ -400,7 +400,7 @@ body{
                         <div class="card h-20">
                             <div class="card-body" style="display: flex; justify-content: space-between">
                                     <p class="mt-1">Award & Certification</p>
-                                    <div><a class="btn btn-primary" style="color:white;">Add </a>
+                                    <div><a class="btn btn-primary" style="color:white;" href="/user/addCertificte">Add </a>
                                         <a class="btn btn-danger" style="color:white;">Edit</a> </div>
                                     
                             </div>

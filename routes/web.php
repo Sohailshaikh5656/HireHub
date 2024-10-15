@@ -129,7 +129,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("user/addEducation",[UserProfileController::class,'addEducationPage']);
     Route::post("user/storeEducation",[UserProfileController::class,'storeEducation'])->name("storeEducation");
 
+    Route::get("user/addCertificte",[UserProfileController::class,'addCertificte']);
+    Route::post("user/storecertificate",[UserProfileController::class,'storecertificate'])->name("storecertificate");
+
     Route::get("user/addExperience",[UserProfileController::class,'addExperiencePage']);
     Route::post("user/storeExperience",[UserProfileController::class,'storeExperience'])->name("storeExperience");
+
+    Route::get("user/addSkill",[UserProfileController::class,'addSkill']);
+    Route::post("user/storeSkill",[UserProfileController::class,'storeSkill'])->name("storeSkill");
+
 });
 require __DIR__.'/auth.php';
