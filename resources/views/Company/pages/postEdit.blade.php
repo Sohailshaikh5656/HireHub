@@ -68,7 +68,7 @@
 
                 </div>
                 <div class="card-body">
-                  <form role="form text-left" action="/Company/storeJobPosting" method="post">
+                  <form role="form text-left" action="/Company/updateJobPosting/{{$data->id}}" method="post">
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>
@@ -110,12 +110,13 @@
                         </div>
                       @endif
                     @csrf
+                    @method('PUT')
                     <div class="row mb-3">
                       <div class="col-6">
                           <select class="form-control" id="jobCategory" name="job_category">
                               <option value="0">--- Select Job Category ---</option>
                               @foreach ($job as $job)
-                              <option value={{ $job->id }}>{{ $job->category_name }}</option>
+                              <option value={{ $job->id }} {{$job->id == $data->jobcategory_id ? 'selected':''}}>{{ $job->category_name }}</option>
                               @endforeach
                           </select>
                       </div>
@@ -124,7 +125,7 @@
                           <select class="form-control" id="jobSubCategory" name="job_sub_category">
                               <option value="0">--- Select Job Posting ---</option>
                               @foreach ($subJob as $subJob)
-                              <option value="{{ $subJob->job_sub_category }}">{{ $subJob->job_sub_category }}</option>
+                              <option value="{{ $subJob->job_sub_category }}"{{$subJob->job_sub_category == $data->job_post_name ? 'selected':''}}>{{ $subJob->job_sub_category }}</option>
                               @endforeach
                           </select>
                       </div>
@@ -132,65 +133,33 @@
                    
                   <div class="row mb-3">
                     <div class="col-6">
-                        <input type="text" class="form-control" name="min_sal" placeholder="Minimum Salary in Lakh/Per Anumm" aria-label="Name" aria-describedby="email-addon" required>
+                        <input type="text" class="form-control" name="min_sal" placeholder="Minimum Salary in Lakh/Per Anumm" aria-label="Name" aria-describedby="email-addon" value="{{ intval($data->min_salary) == $data->min_salary ? intval($data->min_salary) : rtrim(rtrim(number_format($data->min_salary, 2), '0'), '.') }}" required>
                       </div>
                       
 
                       <div class="col-6">
-                        <input type="text" class="form-control" name="max_sal" placeholder="Maximum Salary in Lakh/Per Anumm" aria-label="Name" aria-describedby="email-addon" required>
+                        <input type="text" class="form-control" name="max_sal" placeholder="Maximum Salary in Lakh/Per Anumm" aria-label="Name" aria-describedby="email-addon" value="{{ intval($data->max_salary) == $data->max_salary ? intval($data->max_salary) : rtrim(rtrim(number_format($data->max_salary, 2), '0'), '.') }}" required>
                       </div>
 
                   </div>
 
                       <div class="mb-3">
-                        <input type="number" class="form-control" name="min_exp" placeholder="Minimum Exprience in Years" aria-label="Name" aria-describedby="email-addon" required>
+                        <input type="number" class="form-control" name="min_exp" value="{{ intval($data->min_experience) == $data->min_experience ? intval($data->min_experience) : rtrim(rtrim(number_format($data->min_experience, 2), '0'), '.') }}" placeholder="Minimum Exprience in Years" aria-label="Name" aria-describedby="email-addon" required>
                       </div>
 
                       <div class="mb-3">
-                        <input type="number" class="form-control" name="max_exp" placeholder="Maximum Exprience in Years" aria-label="Name" aria-describedby="email-addon" required>
+                        <input type="number" class="form-control" name="max_exp" value="{{ intval($data->max_experience) == $data->max_experience ? intval($data->max_experience) : rtrim(rtrim(number_format($data->max_experience, 2), '0'), '.') }}" placeholder="Maximum Exprience in Years" aria-label="Name" aria-describedby="email-addon" required>
                       </div>
                       
                       <div class="mb-3">
-                        <input type="text" class="form-control" name="degree_require" placeholder="Enter degree (BCA,MCA,All Becholer)" aria-label="Name" aria-describedby="email-addon" required>
+                        <input type="text" class="form-control" name="degree_require" value="{{$data->degree}}" placeholder="Enter degree (BCA,MCA,All Becholer)" aria-label="Name" aria-describedby="email-addon" required>
                       </div>
-                      <div class="col-6 ">
-                        <label class="form-label mt-5">Application Deadline</label>
-                        <input type="date" class="form-control" name="DeadLine" aria-label="Name" aria-describedby="email-addon" required>
-                      </div>
-                      
                       <div class="mb-3">
-                        <label class="form-label mt-5">Add requirement line by Line || After click on Add button</label>
-                        <input type="text" id="task" class="form-control" placeholder="Enter Requirement per line" aria-label="Name" aria-describedby="email-addon" >
-                        <input type="button" id="btnAdd" onclick="btnAddk()" class="btn btn-success mt-2" value="Add Requirement">
+                        <textarea class="form-control" name="requirement" placeholder="Mentions some required Skill seprate by, per line">{{$data->requirement}}</textarea>
                       </div>
-                    
-                    <div class="mb-3">
-                        <textarea class="form-control" id="requirementTextArea" name="" placeholder="Mentions some required Skill separate by, per line" readonly rows="10" required></textarea>
-                        <textarea hidden class="" id="requirementActualData" name="requirement" placeholder="Mentions some required Skill separate by, per line" style="display: none"></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label class="form-label mt-5">Add JobDescription line by Line || After click on Add button</label>
-                      <input type="text" id="description" class="form-control" placeholder="Enter Requirement per line" aria-label="Name" aria-describedby="email-addon" >
-                      <input type="button" id="btnAdd" onclick="btnAddDes()" class="btn btn-success mt-2" value="Add Job Description">
-                    </div>
-                    
-                    
                       <div class="mb-3">
-                        <textarea class="form-control" id="dummyDescription" name="" placeholder="Mentions some Job description and benifit" readonly rows="10" required></textarea>
-                        <textarea class="form-control" id="ActualDescription" name="description" placeholder="Mentions some Job description and benifit" style="display:none;"></textarea>
+                        <textarea class="form-control" name="description"  placeholder="Mentions some Job description and benifit seprated by (,)comma">{{$data->description}}</textarea>
                       </div>
-
-                      <div class="mb-3">
-                        <label class="form-label mt-5">Add Benefit line by line || After clicking on Add button</label>
-                        <input type="text" id="benefit" class="form-control" placeholder="Enter Job Benefit per line" aria-label="Name" aria-describedby="email-addon" >
-                        <input type="button" id="btnAddkk" onclick="btnAddBenefitk()" class="btn btn-success mt-2" value="Add benefits">
-                    </div>
-                    
-                    <div class="mb-3">
-                        <textarea class="form-control" id="dummyBenefit" name="" placeholder="Mentions some Job Benefit and benefit" readonly rows="10" required></textarea>
-                        <textarea class="form-control" id="ActualBenefit" name="benefit" placeholder="Mentions some Job description and benefit" style="display:none;"></textarea>
-                    </div>
-                    
                       <p>Job Location</p>
                       <div class="row mb-3">
 
@@ -199,7 +168,7 @@
                             <select class="form-control" name="state_id">
                                 <option value=0>--Select State --</option>
                                 @foreach ($state as $state)
-                                <option value={{$state->id}}>{{$state->state_name}}</option>
+                                <option value={{$state->id}} {{$state->id == $data->state_id?'selected':''}}>{{$state->state_name}}</option>
                               @endforeach
                             </select>
                         </div>
@@ -207,7 +176,7 @@
                             <select class="form-control" name="city_id">
                               <option value=0>--Select City--</option>
                               @foreach ($city as $city)
-                                <option value={{$city->id}}>{{$city->city_name}}</option>
+                                <option value={{$city->id}} {{$city->id==$data->city_id?'selected':''}}>{{$city->city_name}}</option>
                               @endforeach
                                
                                 
@@ -218,7 +187,7 @@
                     
                     
                     <div class="form-check form-check-info text-left">
-                      <input class="form-check-input" type="checkbox" name="termAndConditions" value="accepted" id="flexCheckDefault" required>
+                        <input class="form-check-input" type="checkbox" name="termAndConditions" value="accepted" id="flexCheckDefault" required>
                         <label class="form-check-label" for="flexCheckDefault">
                           I agree to the <a href="javascript:;" class="text-dark font-weight-bolder">Terms and Conditions</a>
                         </label>
@@ -234,8 +203,6 @@
       </section>
     
   </main>
-
-
   
   <!--   Core JS Files   -->
   <script src="{{asset ('company_mat/assets/js/core/popper.min.js')}}"></script>
@@ -244,98 +211,35 @@
   <script src="{{asset ('company_mat/assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{asset ('company_mat/assets/js/plugins/chartjs.min.js')}}"></script>
 
+
   <script>
-    function btnAddk() {
-        console.log("btnAdd function called"); // Debug log
-        let task = document.getElementById("task").value.trim();
-        console.log("Task to add:", task); // Get task input
-        let requirementTextArea = document.getElementById("requirementTextArea");
-        let requirementActualData = document.getElementById("requirementActualData");
-
-        if (task) {
-            // Append to the visible textarea
-            if (requirementTextArea.value !== '') {
-                requirementTextArea.value += "\n" + task; // Append with a new line
-            } else {
-                requirementTextArea.value = task; // Set the first value
-            }
-
-            // Update the hidden textarea for database storage
-            if (requirementActualData.value !== '') {
-                requirementActualData.value += ";" + task; // Append with backslash
-            } else {
-                requirementActualData.value = task; // Set the first value
-            }
-
-            // Clear the input field
-            document.getElementById("task").value = '';
-        } else {
-            alert("Please enter a requirement before adding!");
-        }
-    }
-
-    function btnAddDes(){
-      console.log("Button clicked !");
-      let description = document.getElementById("description").value.trim();
-      console.log("Task Loded");
-      let dummydescription = document.getElementById("dummyDescription");
-      let ActualDescription = document.getElementById("ActualDescription");
-      if(description){
-        if(dummydescription.value!=''){
-          dummydescription.value += "\n"+description;
-        }
-        else{
-          dummydescription.value = description;
-        }
-
-        if(ActualDescription.value!=''){
-          ActualDescription.value += ";"+description;
-        }
-        else{
-          ActualDescription.value = description;
-        }
-
-        document.getElementById("description").value = "";
-
-      }else{
-        alert("Please enter a description before adding!")
-      }
-    }
-
-    
-    function btnAddBenefitk() {
-    console.log("Button clicked !");
-    let benefit = document.getElementById("benefit").value.trim();
-    console.log("Task Loaded");
-
-    // Fix case-sensitive ID references
-    let dummyBenefit = document.getElementById("dummyBenefit");
-    let actualBenefit = document.getElementById("ActualBenefit");
-
-    if (benefit) {
-        if (dummyBenefit.value !== '') {
-            dummyBenefit.value += "\n" + benefit;
-        } else {
-            dummyBenefit.value = benefit;
-        }
-
-        if (actualBenefit.value !== '') {
-            actualBenefit.value += ";" + benefit;
-        } else {
-            actualBenefit.value = benefit;
-        }
-
-        // Clear the input field after adding
-          document.getElementById("benefit").value = "";
-      } else {
-          alert("Please enter a benefit before adding!");
-      }
-  }
-
-    // Other JavaScript code...
-</script>
-
   
+    document.getElementById('jobCategory').addEventListener('change', function() {
+        var jobCategoryId = this.value;
+
+        if (jobCategoryId != 0) {
+            fetchSubCategories(jobCategoryId);
+        } else {
+            // Reset the sub-category dropdown if no category is selected
+            document.getElementById('jobSubCategory').innerHTML = '<option value="0">--- Select Job Posting ---</option>';
+        }
+    });
+
+    function fetchSubCategories(jobCategoryId) {
+        // Perform AJAX request to fetch subcategories based on selected category
+        fetch(`/get-subcategories/${jobCategoryId}`)
+        .then(response => response.json())
+        .then(data => {
+            var subCategoryDropdown = document.getElementById('jobSubCategory');
+            subCategoryDropdown.innerHTML = '<option value="0">--- Select Job Posting ---</option>';
+
+            data.forEach(subJob => {
+                subCategoryDropdown.innerHTML += `<option value="${subJob.id}">${subJob.job_sub_category}</option>`;
+            });
+        })
+        .catch(error => console.error('Error fetching subcategories:', error));
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
 

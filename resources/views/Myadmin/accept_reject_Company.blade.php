@@ -4,9 +4,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>HireHub | Admin-Approve/Reject</title>
-    <!-- plugins:css -->{{asset ('
-    <link rel="stylesheet" href="admin_mat/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
+    <title>HireHub | Admin Add Job Catagorey</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{asset ('admin_mat/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css')}}">
     <!-- endinject -->
     <!-- Plugin css for this page -->
@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{asset ('admin_mat/assets/css/style.css')}}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{asset ('admin_mat/assets/images/favicon.png')}}" />
+    <style>
     <style>
     th{
         text-transform: uppercase;

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{asset ('user_mat/fonts/line-icons/style.css')}}">
     <link rel="stylesheet" href="{{asset ('user_mat/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset ('user_mat/css/animate.min.css')}}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="{{asset ('user_mat/css/style.css')}}">   
@@ -74,8 +75,81 @@ body{
 .shadow-none {
     box-shadow: none!important;
 }
+.skill {
+    width: 160px;
+    height: 160px;
+    position: relative; /* Relative position to anchor the svg inside */
+    margin: 0 auto; /* Center it within the card horizontally */
+}
+.outer {
+    height: 160px;
+    width: 160px;
+    box-shadow: 6px 6px 10px -1px rgba(0, 0, 0, 0.15), -6px -6px 10px -1px rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    padding: 20px;
+    position: relative;
+}
+.inner {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+                -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+                0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+                0px 12px 10px -10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+}
+#number {
+    font-weight: 600;
+    color: #555;
+    font-size: 30px;
+}
+circle {
+    fill: none;
+    stroke: url(#GradientColor);
+    stroke-width: 20px;
+    stroke-dasharray: 440; /* Based on circle radius */
+    stroke-dashoffset: 440; /* Start hidden */
+    transition: stroke-dashoffset 6s ease-in-out;
+}
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.box{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.skill1{
+			height: 60px;
+			width: 140px;
+			border-radius: 10px;
+			background-color: skyblue;
+      box-shadow: inset 4px 4px 6px -1px rgba(0, 0, 0, 0.2),
+                -0.5px -0.5px 0px rgba(255, 255, 255, 1),
+                0.5px 0.5px 0px rgba(0, 0, 0, 0.15),
+                0px 12px 10px -10px rgba(0, 0, 0, 0.5);
+			margin: 10px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+      padding-top:10px; 
+      float: left;
+		}
+		.skill1 p{
+			font-family: 'popins';
+			font-weight: 400;
+			text-transform: uppercase;
+			color: #fff;
+      font-size: 16px;
+		}
 </style>
-        </style> 
   </head>
   <body id="top">
   <div id="overlayer"></div>
@@ -136,11 +210,11 @@ body{
                   <div class="card">
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                        <img src="{{ asset('images/userData/' . $userProfile->ImageUrl) }}" alt="Admin" class="rounded-circle" width="150" height="150">
                         <div class="mt-3">
-                          <h4>John Doe</h4>
+                          <h4>{{$user->first_name}} {{$user->last_name}}</h4>
                           <p class="text-secondary mb-1">Full Stack Developer</p>
-                          <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                          <p class="text-muted font-size-sm">{{$userProfile->address}}</p>
                           <button class="btn btn-primary">Follow</button>
                           <button class="btn btn-outline-primary">Message</button>
                         </div>
@@ -180,16 +254,16 @@ body{
                           <h6 class="mb-0">Full Name</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          Kenneth Valdez
+                          {{$user->first_name}} {{$user->last_name}}
                         </div>
                       </div>
                       <hr>
                       <div class="row">
                         <div class="col-sm-3">
-                          <h6 class="mb-0">Age</h6>
+                          <h6 class="mb-0">Date of Birth</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          23
+                          {{$userProfile->DOB}}
                         </div>
                       </div>
                       <hr>
@@ -198,7 +272,7 @@ body{
                           <h6 class="mb-0">Email</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          fip@jukmuh.al
+                         {{$user->email}}
                         </div>
                       </div>
                       <hr>
@@ -207,7 +281,7 @@ body{
                           <h6 class="mb-0">Phone</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          (239) 816-9029
+                          {{$userProfile->contact}}
                         </div>
                       </div>
                       <hr>
@@ -225,7 +299,7 @@ body{
                           <h6 class="mb-0">Address</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          Bay Area, San Francisco, CA
+                         {{$userProfile->address}}
                         </div>
                       </div>
                       <hr>
@@ -250,63 +324,47 @@ body{
                             </div>
                         </div>
                       </div>
-                    <div class="col-sm-6 mb-3">
-                      <div class="card h-100">
-                        <div class="card-body">
-                          <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                          <large>Degree : Bechlore in Computer Application</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Board : Gujarat University</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Starting Year : 2020</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Ending Year : 2023</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>School Name : K.K. Shastri</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 mb-3">
-                        <div class="card h-100">
-                          <div class="card-body">
-                            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                            <large>Degree : Bechlore in Computer Application</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                      @foreach ($EducationData as $education)
+                            <div class="col-sm-6 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <large style="font-size: 1.1rem;"><strong>Degree:</strong> <span style="color: #555;">{{ $education->degree }}</span></large><br><hr>
+                                        <large style="font-size: 1.1rem;"><strong>Board:</strong> <span style="color: #555;">{{ $education->board }}</span></large><br><hr>
+                                        <large style="font-size: 1.1rem;"><strong>Starting Year:</strong> <span style="color: #555;">{{ $education->starting_year }}</span></large><br><hr>
+                                        <large style="font-size: 1.1rem;"><strong>Ending Year:</strong> <span style="color: #555;">{{ $education->ending_year }}</span></large><br><hr>
+                                        <large style="font-size: 1.1rem;"><strong>School Name:</strong> <span style="color: #555;">{{ $education->school_name }}</span></large><br><hr>
+
+                                        
+                                    </div>
+                                </div>
                             </div>
-                            <large>Board : Gujarat University</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Starting Year : 2020</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Ending Year : 2023</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>School Name : K.K. Shastri</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
+
+                            <div class="col-sm-6 mb-3">
+                              <div class="card h-100">
+                                  <div class="card-body">
+                                     
+                                    <h6 class="mt-3"><strong>Percentage Scored:</strong></h6>
+                                    <div class="skill">
+                                        <div class="outer">
+                                            <div class="inner">
+                                                <div id="number">{{ $education->grade }}%</div>
+                                            </div>
+                                        </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px">
+                                            <defs>
+                                                <linearGradient id="GradientColor">
+                                                    <stop offset="0%" stop-color="#DA22FF" />
+                                                    <stop offset="100%" stop-color="#9733EE" />
+                                                </linearGradient>
+                                            </defs>
+                                            <circle cx="80" cy="80" r="70" stroke-linecap="round" id="progressCircle"/>
+                                        </svg>
+                                    </div> 
+                                  </div>
+                              </div>
                           </div>
-                        </div>
-                      </div>
+                        @endforeach
                   </div>
-    
-    
 
                   <div class="row gutters-sm">
                     <div class="col-sm-12 text-secondary mb-3">
@@ -319,78 +377,29 @@ body{
                             </div>
                         </div>
                       </div>
+                    @foreach ($ExpData as $ExpData)
                     <div class="col-sm-6 mb-3">
                       <div class="card h-100">
-                        <div class="card-body">
-                          <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                          <large>Post Name : developer</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Post Description : A Junior Software developer</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Department Name : Software Development</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Starting Year : 2020</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Ending Year : 2023</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Industry : IT</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Instution Name : Create Solution</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                         
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6 mb-3">
-                        <div class="card h-100">
                           <div class="card-body">
-                            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                            <large>Post Name : developer</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Post Description : A Junior Software developer</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Department Name : Software Development</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Starting Year : 2020</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Ending Year : 2023</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Industry : IT</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Instution Name : Create Solution</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                           
+                            <large style="font-size: 1.1rem;"><strong>Post Name:</strong> <span style="color: #555;">{{ $ExpData->post_name }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Description:</strong> <span style="color: #555;">{{ $ExpData->post_description }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Department Name:</strong> <span style="color: #555;">{{ $ExpData->department_name }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Industry:</strong> <span style="color: #555;">{{ $ExpData->industry }}</span></large><br><hr>
                           </div>
                         </div>
-                      </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                      <div class="card h-100">
+                          <div class="card-body">
+                            <large style="font-size: 1.1rem;"><strong>Starting Year:</strong> <span style="color: #555;">{{ $ExpData->starting_year }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Ending Year:</strong> <span style="color: #555;">{{ $ExpData->ending_year }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Institution Name:</strong> <span style="color: #555;">{{ $ExpData->inst }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Institution Address:</strong> <span style="color: #555;">{{ $ExpData->school_name }}</span></large><br><hr>
+                          </div>
+                        </div>
+                    </div>
+                    @endforeach
                   </div>
 
 
@@ -406,48 +415,20 @@ body{
                             </div>
                         </div>
                       </div>
-                    <div class="col-sm-6 mb-3">
-                      <div class="card h-100">
-                        <div class="card-body">
-                          <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                          <large>Certificate Name : developer</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Certificate Description : A Junior Software developer</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Year of Compleation : Software Development</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          
-                        </div>
-                      </div>
-                    </div>
                     
-
-                    <div class="col-sm-6 mb-3">
-                        <div class="card h-100">
+                      @foreach ($Certi as $Certi)
+                    <div class="col-sm-12 mb-3">
+                      <div class="card h-100">
                           <div class="card-body">
-                            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                            <large>Certificate Name : developer</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Certificate Description : A Junior Software developer</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Year of Compleation : Software Development</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            
+                            <large style="font-size: 1.1rem;"><strong>Certificate Name:</strong> <span style="color: #555;">{{ $Certi->certificate_name }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Description:</strong> <span style="color: #555;">{{ $Certi->description }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Completion Date :</strong> <span style="color: #555;">{{ $Certi->completion_date }}</span></large><br><hr>
+
                           </div>
                         </div>
-                      </div>
+                    </div>
+                    @endforeach
+
                 </div>
 
                 <div class="row gutters-sm">
@@ -455,53 +436,31 @@ body{
                         <div class="card h-20">
                             <div class="card-body" style="display: flex; justify-content: space-between">
                                     <p class="mt-1">Skills</p>
-                                    <div><a class="btn btn-primary" style="color:white;">Add </a>
+                                    <div><a class="btn btn-primary" style="color:white;" href="/user/addSkill">Add </a>
                                         <a class="btn btn-danger" style="color:white;">Edit</a> </div>
                                     
                             </div>
                         </div>
                       </div>
-                    <div class="col-sm-12 mb-3">
-                      <div class="card h-100">
-                        <div class="card-body">
-                          <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                          <large>Certificate Name : developer</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Certificate Description : A Junior Software developer</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          <large>Year of Compleation : Software Development</large>
-                          <div class="progress mb-3" style="height: 5px">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                          </div>
-                          
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-sm-12 mb-3">
+                      <div class="col-sm-12 mb-3">
                         <div class="card h-100">
-                          <div class="card-body">
-                            <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
-                            <large>Certificate Name : developer</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="card-body">
+                              <div class="box " style="display:flex; flex-wrap:wrap;justify-content: flex-start; gap:10px">
+                                @if(is_array($skills) && count($skills) > 0)
+                                        @foreach ($skills as $skill)
+                                            <div class="skill1">
+                                                <p>{{ $skill }}</p>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <p>No skills available.</p>
+                                    @endif
+                                
+                              </div>
                             </div>
-                            <large>Certificate Description : A Junior Software developer</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <large>Year of Compleation : Software Development</large>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            
                           </div>
-                        </div>
                       </div>
+
                 </div>
               </div>
               </div>
@@ -514,6 +473,31 @@ body{
   </div>
 
     <!-- SCRIPTS -->
+    
+       <script>
+        // Get the number and circle elements
+        let number = document.getElementById('number');
+        let progressCircle = document.getElementById('progressCircle');
+        
+        // Get the percentage from the #number div
+        let percentage = parseInt(number.innerHTML); // Convert string to integer
+
+        // Calculate the stroke-dashoffset based on the percentage
+        let strokeOffset = 440 - (440 * percentage / 100); // 440 is the total dash length
+
+        // Animate the progress
+        let counter = 0;
+        let interval = setInterval(() => {
+            if (counter >= percentage) {
+                clearInterval(interval);
+            } else {
+                counter++;
+                number.innerHTML = `${counter}%`;    
+                progressCircle.style.strokeDashoffset = strokeOffset; // Update stroke offset
+            }
+        }, 30);
+    </script>
+
      <!-- SCRIPTS -->
      <script src="{{asset ('user_mat/js/jquery.min.js')}}"></script>
      <script src="{{asset ('user_mat/js/bootstrap.bundle.min.js')}}"></script>

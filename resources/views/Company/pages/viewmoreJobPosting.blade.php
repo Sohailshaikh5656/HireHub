@@ -41,7 +41,7 @@
   </style>
 </head>
 @php
-    $pagename = "Manage Job Posting"
+    $pagename = "Viewmore About Job Posting"
 @endphp
 <body class="g-sidenav-show  bg-gray-100">
   @include('Company.common.side_nav')
@@ -245,286 +245,106 @@
           </div>
         </div> --}}
         <div class="row">
-          <div class="col-12">
-            <div class="card mb-4">
+          <div class="col-12" >
+            <div class="card mb-4" style="padding:30px">
               <div class="card-header pb-0">
                 <h6>Job Posted table</h6>
               </div>
               <div class="card-body px-0 pt-0 pb-2">
-                @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @elseif (session('postingUpdate'))
-                <div class="alert alert-success">
-                  <ul>
-                          <li>Job Posting Updated</li>
-                          @php
-                            session(['postingUpdate'=>false]);
-                          @endphp
-                          
-                        </ul>
-                    </div>
-
-                    @elseif (session('addSubjob'))
-                <div class="alert alert-success">
-                  <ul>
-                          <li>Sub Job Added Successfully !</li>
-                          @php
-                            session(['addSubjob'=>false]);
-                            @endphp
-                  </ul>
-              </div>
-
-                    @elseif (session('delete'))
-                <div class="alert alert-danger">
-                  <ul>
-                          <li>Job Posting deleted !</li>
-                          @php
-                            session(['delete'=>false]);
-                          @endphp
-                          
-                        </ul>
-                    </div>
-                  @endif
                 <div class="table-responsive p-0">
-                  <table class="table align-items-center justify-content-center mb-0">
+                  <table class="table align-items-center justify-content-center mb-0" style="padding: 30px; font-size: 20px">
                     <thead>
                       <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Job Post Name</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Job category</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Degree Require</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">View More</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Edit</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Delete</th>
-                        {{-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Completion</th> --}}
-                        <th></th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Field</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Related Data</th>
+
                       </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($post as $post )
                       <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div>
-                              {{-- <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm rounded-circle me-2" alt="spotify"> --}}
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">{{$post->job_post_name}}</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-bold mb-0">{{$post->cata}}</p>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold"><ul>
-                            @foreach (explode(';',$post->description) as $line)
+
+                        <td class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">Job Post name</td>
+                        <td class="text-xs font-weight-bold">{{$data->job_post_name}}</td>
+                    </tr>
+                    
+                    <tr>
+
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Description</td>
+                        <td class="text-xs font-weight-bold">
+                          <ul>
+                            @foreach (explode(';',$data->description) as $line)
                               <li style="text-transform: capitalize">{{$line}}</li>
-                            @endforeach  
-                          </ul></span>
+                            @endforeach
+                          </ul>
                         </td>
-                        <td>
-                          <span class="text-xs font-weight-bold">{{$post->degree}}</span>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold"><a class="btn btn-warning btn btn-outline-success" href="/Company/postViewmore/{{$post->id}}">Viewmore</a></span>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold"><a class="btn btn-primary btn btn-outline-success" href="/Company/postEdit/{{$post->id}}">Edit</a></span>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold"><a class="btn btn-danger btn btn-outline-success" href="/Company/postDelete/{{$post->id}}">Delete</a></span>
-                        </td>
-                        {{-- <td class="align-middle text-center">
-                          <div class="d-flex align-items-center justify-content-center">
-                            <span class="me-2 text-xs font-weight-bold">60%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td> --}}
-                        {{-- <td class="align-middle">
-                          <button class="btn btn-link text-secondary mb-0">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                          </button>
-                        </td> --}}
-                      </tr>
-                      @endforeach
-                     
-                      {{-- <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-invision.svg" class="avatar avatar-sm rounded-circle me-2" alt="invision">
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Invision</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-bold mb-0">$5,000</p>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold">done</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <div class="d-flex align-items-center justify-content-center">
-                            <span class="me-2 text-xs font-weight-bold">100%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="align-middle">
-                          <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-jira.svg" class="avatar avatar-sm rounded-circle me-2" alt="jira">
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Jira</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-bold mb-0">$3,400</p>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold">canceled</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <div class="d-flex align-items-center justify-content-center">
-                            <span class="me-2 text-xs font-weight-bold">30%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-danger" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="30" style="width: 30%;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="align-middle">
-                          <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-slack.svg" class="avatar avatar-sm rounded-circle me-2" alt="slack">
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Slack</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-bold mb-0">$1,000</p>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold">canceled</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <div class="d-flex align-items-center justify-content-center">
-                            <span class="me-2 text-xs font-weight-bold">0%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0" style="width: 0%;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="align-middle">
-                          <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-webdev.svg" class="avatar avatar-sm rounded-circle me-2" alt="webdev">
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Webdev</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-bold mb-0">$14,000</p>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold">working</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <div class="d-flex align-items-center justify-content-center">
-                            <span class="me-2 text-xs font-weight-bold">80%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-info" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="80" style="width: 80%;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="align-middle">
-                          <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <div class="d-flex px-2">
-                            <div>
-                              <img src="../assets/img/small-logos/logo-xd.svg" class="avatar avatar-sm rounded-circle me-2" alt="xd">
-                            </div>
-                            <div class="my-auto">
-                              <h6 class="mb-0 text-sm">Adobe XD</h6>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                          <p class="text-sm font-weight-bold mb-0">$2,300</p>
-                        </td>
-                        <td>
-                          <span class="text-xs font-weight-bold">done</span>
-                        </td>
-                        <td class="align-middle text-center">
-                          <div class="d-flex align-items-center justify-content-center">
-                            <span class="me-2 text-xs font-weight-bold">100%</span>
-                            <div>
-                              <div class="progress">
-                                <div class="progress-bar bg-gradient-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                        <td class="align-middle">
-                          <button class="btn btn-link text-secondary mb-0" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-ellipsis-v text-xs"></i>
-                          </button>
-                        </td>
-                      </tr> --}}
-                    </tbody>
+                    </tr>
+                    <tr>
+
+                      <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Benefits</td>
+                      <td class="text-xs font-weight-bold"><ul>
+                        @foreach (explode(';',$data->benefit) as $line)
+                          <li style="text-transform: capitalize;">{{$line}}</li>
+                        @endforeach  
+                      </ul></td>
+                  </tr>
+                  <tr>
+                    <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Requirement</td>
+                    <td class="text-xs font-weight-bold"><ul>
+                      @foreach (explode(';',$data->requirement) as $line)
+                        <li style="text-transform: capitalize">{{$line}}</li>
+                      @endforeach  
+                    </ul></td>
+                </tr>
+
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Mininum Salary</td>
+                        <td class="text-xs font-weight-bold">{{ intval($data->min_salary) == $data->min_salary ? intval($data->min_salary) : rtrim(rtrim(number_format($data->min_salary, 2), '0'), '.') }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Maximum Salary</td>
+                        <td class="text-xs font-weight-bold">{{ intval($data->max_salary) == $data->max_salary ? intval($data->max_salary) : rtrim(rtrim(number_format($data->max_salary, 2), '0'), '.') }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Minimum Experience Required</td>
+                        <td class="text-xs font-weight-bold">{{ intval($data->min_experience) == $data->min_experience ? intval($data->min_experience) : rtrim(rtrim(number_format($data->min_experience, 2), '0'), '.') }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Maximum Experience Required</td>
+                        <td class="text-xs font-weight-bold">{{ intval($data->max_experience) == $data->max_experience ? intval($data->max_experience) : rtrim(rtrim(number_format($data->max_experience, 2), '0'), '.') }}</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Degree Required</td>
+                        <td class="text-xs font-weight-bold">{{$data->degree}}</td>
+                    </tr>
+                   
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Job Feild</td>
+                        <td class="text-xs font-weight-bold">{{$categoryData->category_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">State</td>
+                        <td class="text-xs font-weight-bold">{{$state->state_name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">City</td>
+                        <td class="text-xs font-weight-bold">{{$city->city_name}}</td>
+                    </tr>
+                    <tr>
+                      <td class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">Application DeadLine</td>
+                      <td class="text-xs font-weight-bold">{{$data->Deadline}}</td>
+                  </tr>
+                    <tr>
+                        <td class="text-uppercase  text-xxs font-weight-bolder opacity-7 ps-2">Posting Date</td>
+                        <td class="text-xs font-weight-bold">{{$data->created_at}}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">Updated Date</td>
+                        <td class="text-xs font-weight-bold">{{$data->updated_at}}</td>
+                    </tr>
+                        
+                    </thead>
                   </table>
                 </div>
               </div>

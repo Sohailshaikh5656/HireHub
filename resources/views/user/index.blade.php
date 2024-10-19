@@ -160,26 +160,29 @@
         </div>
         
         <ul class="job-listings mb-5">
-          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
-            <a href="job-single.html"></a>
+          @foreach ($jobList as $job)
+          <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center" style="margin: 20px">
+            <a href="/user/singleJobPage/{{$job->id}}"></a>
             <div class="job-listing-logo">
-              <img src="{{asset ('user_mat/images/job_logo_1.jpg')}}" alt="Free Website Template by Free-Template.co" class="img-fluid">
+              <img src="{{ asset('images/agencyData/' . $job->images) }}" alt="Free Website Template by Free-Template.co" class="img-fluid">
             </div>
 
             <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
               <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
-                <h2>Product Designer</h2>
-                <strong>Adidas</strong>
+                <h2>{{$job->job_post_name}}</h2>
+                <strong>{{$job->agency_name}}</strong>
               </div>
               <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
-                <span class="icon-room"></span> New York, New York
+                <span class="icon-room"></span> {{$job->state}}, {{$job->city}}
               </div>
               <div class="job-listing-meta">
-                <span class="badge badge-danger">Part Time</span>
+                <span class="badge badge-success"> &#8377;{{$job->minSalary}}&nbsp;-&nbsp;&#8377;{{$job->maxSalary}}&nbsp; &nbsp;Lakh/Per Anum</span>
               </div>
             </div>
             
           </li>
+          @endforeach
+         
           <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
             <a href="job-single.html"></a>
             <div class="job-listing-logo">

@@ -14,11 +14,18 @@ use App\Http\Controllers\UserControllers\UserControllers;
 use App\Http\Controllers\UserControllers\ContactControllers;
 use App\Http\Controllers\UserControllers\_AgencyController;
 use App\Http\Controllers\UserControllers\UserProfileController;
+use App\Http\Controllers\UserControllers\HomeController;
+use App\Http\Controllers\UserControllers\JobController;
+
+
 
 //Company controllers
 
 use App\Http\Controllers\CompanyControllers\CompanyDashboardController;
 use App\Http\Controllers\CompanyControllers\CompanyManageJobPosting;
+
+//PDF Controller
+use App\Http\Controllers\PDFController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +101,13 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("Company/Dashboard",[CompanyDashboardController::class,'getDashboard']);
     
     Route::get("Company/newJobPosting",[CompanyManageJobPosting::class,'newJobPosting']);
+    Route::post("Company/storeJobPosting",[CompanyManageJobPosting::class,'storeJobPosting'])->name('storeJobPosting');
+    Route::get("Company/postViewmore/{id}",[CompanyManageJobPosting::class,'postViewmore']);
+    Route::get('Company/postEdit/{id}',[CompanyManageJobPosting ::class,'postEdit'])->name('postEdit');
+    Route::put("Company/updateJobPosting/{id}",[CompanyManageJobPosting::class,'updateJobPosting'])->name('updateJobPosting');
+    Route::get('Company/postDelete/{id}',[CompanyManageJobPosting::class,'postDelete'] );
+
+
     Route::get("Company/manageJobPosting",[CompanyManageJobPosting::class,'manageJobPosting']);
     Route::view('Company/manageJobApplication', 'Company.pages.manageJobApplication');
     
@@ -103,7 +117,7 @@ Route::group(['middleware' => ['web']], function () {
     
     //User Routes
     
-    Route::view("user/Home","user.index");
+    Route::get("user/Home",[HomeController::class,"Home"]);
     Route::get("user/login",[UserControllers::class,'loginPage']);
     Route::post("user/userAuthChk",[UserControllers::class,'userAuthChk'])->name('userAuthChk');
     
@@ -115,6 +129,9 @@ Route::group(['middleware' => ['web']], function () {
     
     
     Route::view("user/about","user.about");
+    Route::get("user/singleJobPage/{id}",[JobController::class,'singleJobPage']);
+    Route::get("/user/apply/{id}",[JobController::class,"apply"]);
+
     Route::get("user/contact",[ContactControllers::class,'contactPage']);
     Route::post("user/contactStore",[ContactControllers::class,'contactStore'])->name('contactStore');
     
@@ -138,5 +155,15 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("user/addSkill",[UserProfileController::class,'addSkill']);
     Route::post("user/storeSkill",[UserProfileController::class,'storeSkill'])->name("storeSkill");
 
+   
+
+    //Route for PDF View
+    Route::get("/pdf/view",[PDFController::class,'pdfView'])->name("pdf.view");
+    //Route to convert PDF
+    Route::get("/pdf/convert",[PDFController::class,'pdfGeneration'])->name("pdf.convert");
+
+    //JS Route
+    // web.php (routes file)
+    //Route::get('/get-subcategories/{job_category_id}', [CompanyManageJobPosting::class, 'getSubCategories']);
 });
 require __DIR__.'/auth.php';

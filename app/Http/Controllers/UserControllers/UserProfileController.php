@@ -7,17 +7,43 @@ use App\Models\education;
 use App\Models\experience;
 use App\Models\certificate;
 use App\Models\skill;
+use App\Models\user_profile;
+use App\Models\UserTable;
 class UserProfileController extends Controller
 {
     public function userProfile(){
         if(session('user_login')){
-            //$user_id = session('user_id');
-            return view("user.userProfile");
-        }
-        else{
+            $user_id = (int)session('user_id');
+            
+            // Fetching education, experience, and certificate data
+            $EducationData = education::where('user_id', $user_id)->get();
+            $ExpData = experience::where('user_id', $user_id)->get();
+            $Certi = certificate::where('user_id', $user_id)->get();
+            $userProfile = user_profile::where('user_id',$user_id)->first();
+            $user = UserTable::findOrFail($user_id);
+            // Fetching skills data and handling null case
+            $skillData = skill::where('user_id', $user_id)->first();
+            
+            if($skillData && $skillData->skill){ // Check if skillData exists and skill is not null
+                $array = explode(",", $skillData->skill);
+            } else {
+                $array = null; // Set array to null if no skills found
+            }
+    
+            // Returning data to the view
+            return view("user.userProfile", [
+                'EducationData' => $EducationData,
+                'ExpData'       => $ExpData,
+                'Certi'         => $Certi,
+                'user'          =>  $user,
+                'userProfile'   => $userProfile,
+                'skills' => $array
+            ]);
+        } else {
             return redirect("/user/login");
         }
     }
+    
 
 
 
@@ -76,7 +102,9 @@ class UserProfileController extends Controller
 
     public function addExperiencePage(){
         if(session("user_login")){
-            return view("user.addExperience");
+            $user_id = (int)session('user_id');
+            $EductionData = education::where('user_id',$user_id)->first();
+            return view("user.addExperience",['EduactionData'=>$EductionData]);
         }
         else{
             return redirect("/user/login");
@@ -174,39 +202,28 @@ class UserProfileController extends Controller
     }
 
     public function storeSkill(Request $req) {
-        // Validate the input
-        $ValidateData = $req->validate([
-            'skill' => 'required|string|min:3'
-        ]);
-    
-        // Get the user ID from the session
-        $user_id = (int) session("user_id");
-    
-        // Find the skill record for the user
-        $oldData = skill::find($user_id); // Use find instead of findOrFail
-    
-        if ($oldData) {
-            // Get existing skills and convert to array
-            $oldskill = $oldData->skill ?? ''; // Use null coalescing operator
-            $array = array_map('trim', explode(',', $oldskill)); // Trim each skill
-            
-            // Add the new skill
-            $array[] = trim(strtolower($ValidateData['skill']));
-            
-            // Remove duplicates if needed
-            $array = array_unique($array);
-    
-            // Join the skills back into a string
-            $oldData->skill = implode(',', $array);
-            $oldData->save();
-
-            return redirect("/user/userProfile");
-            //return response()->json(['message' => 'Skill updated successfully!']);
-        } else {
-            session(['error'=>"Error in Data Validation ot Login"]);
-            return redirect("/user/certificate");
+        if(session('user_login')){
+            $user_id = (int)session('user_id');
+            $ValidateData = $req->validate(['skill'=>'required|min:3']);
+            $oldData = skill::where('user_id',$user_id)->first();
+            if($oldData){
+                $data = $oldData->skill;
+                $array = explode(',',$data);
+                $array[] = trim(strtolower($ValidateData['skill']));
+                $oldData->skill = implode(',',$array);
+                $oldData->save();
+                return redirect('/user/userProfile');
+            }
+            else{
+                $newData = new skill();
+                $newData->skill = trim(strtolower($ValidateData['skill']));
+                $newData->user_id = $user_id;
+                $newData->save();
+                return redirect("/user/userProfile");
+            }
+        }
+        else{
+            return redirect('/user/login');
         }
     }
-    
-    
 }
