@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>HireHub | Admin Add Job Catagorey</title>
+    <title>HireHub | Admin Agency View More</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset ('admin_mat/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css')}}">
@@ -44,7 +44,7 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <div class="card-body">
+                        <div class="card-body">
                       @if (session('AccountStatus'))
                       <div class="alert alert-danger">
                         <ul>
@@ -55,41 +55,63 @@
                         </ul>
                     </div>
                       @endif
-                      <h4 class="card-title">All Company</h4>
+                      <h4 class="card-title">View More Page : {{$agency->agency_name}}</h4>
                       <div class="table-responsive">
                         <table class="table">
                           <thead>
                             <tr>
                               <th>#</th>
-                              <th> Company Name </th>
-                              <th> Estiblished Date </th>
-                              <th> Email </th>
-                              <th> Contact </th>
-                              <th> View More </th>
-                              <th> Block </th>
-                             
-                              <th> Delete </th>
+                              <th> Infomation </th>
+                              
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach ($data as $data)
+                           
                             <tr>
-                              <td>{{$data->id}}</td>
-                              <td>
-                                <img src="{{asset('images/agencyData/'. $data->image_url)}}" alt="image" />
-                                <span class="pl-2">{{$data->agency_name}} </span>
-                              </td>
-                              <td> {{$data->est_date}} </td>
-                              <td> {{$data->email}} </td>
-                              <td> {{$data->contact}} </td>
-                              <td> <a class="btn btn-warning badge badge-outline-warning" href="/Myadmin/companyViewmore/{{$data->id}}">View More</a> </td>
-                              <td> <a class="btn btn-info badge badge-outline-info" href="/Myadmin/agencyBlock/{{$data->id}}" onclick="return confirm('Are you sure ! You want to block an account ?')">Block</a> </td>
-                              <td><a class="btn btn-danger badge badge-outline-danger" href="/Myadmin/agencyReject/{{$data->id}}" onclick="return confirm('Are you sure ! You want to Delete this account ?')">Delete</a></td>
+                              <td>Agency / Company Name</td>
+                              <td>{{$agency->agency_name}}</td>
                             </tr>
-
-                            @endforeach
-                           
-                           
+                            <tr>
+                              <td>Email</td>
+                              <td>{{$agency->email}}</td>
+                            </tr>
+                            <tr>
+                              <td>Contact</td>
+                              <td>{{$agencyProfile->contact}}</td>
+                            </tr>
+                            <tr>
+                              <td>Owner</td>
+                              <td>{{$agencyProfile->owner_name}}</td>
+                            </tr>
+                          </tr>
+                          <tr>
+                            <td>Established Date</td>
+                            <td>{{$agencyProfile->est_date}}</td>
+                          </tr>
+                            <tr>
+                              <td>Address</td>
+                              <td>{{$agencyProfile->address}}</td>
+                            </tr>
+                            <tr>
+                              <td>State</td>
+                              <td>{{$state->state_name}}</td>
+                            </tr>
+                            <tr>
+                              <td>City</td>
+                              <td>{{$city->city_name}}</td>
+                            </tr>
+                            <tr>
+                              <td>Register Date</td>
+                              <td>{{$agencyProfile->created_at}}</td>
+                            </tr>
+                            <tr>
+                              <td>Profile Updated Date</td>
+                              <td>{{$agencyProfile->updated_at}}</td>
+                            </tr>
+                            <tr>
+                              <td>Blocked Status</td>
+                              <td>{{ $agency->isBlocked==0 ? 'Active or UnBlocked' : 'Blocked' }}</td>
+                            </tr>
                               
                           </tbody>
                         </table>

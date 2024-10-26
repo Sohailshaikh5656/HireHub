@@ -11,6 +11,13 @@ use App\Models\agency_profile;
 use App\Models\JobCategories;
 use App\Models\JobSubCategories;
 use App\Models\jobposting;
+use App\Models\jobapplication;
+use App\Models\user_profile;
+use App\Models\UserTable;
+use App\Models\experience;
+use App\Models\education;
+use App\Models\skill;
+use App\Models\certificate;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Facades\Hash;
@@ -192,5 +199,89 @@ class CompanyManageJobPosting extends Controller
         }
        
     }
+
+    public function searchPosting(){
+        $id = (int) session('agency_id');
+        $data = jobposting::where('agency_id',$id)->get();
+        return view("Company.pages.manageJobApplication",['data'=>$data]);
+    }
+
+
+    public function viewAllApplication($param){
+        if(session('agency_login')){
+            $id = (int) session('jobPostingId');
+            $agency_id = (int) session("agency_id");
+            $query = DB::select("SELECT 
+            user.id AS userId,
+            jobapplication.id AS id,
+            user.first_name AS fname,
+            user.last_name AS lname,
+            user.email,
+            user_profile.contact AS contact
+        FROM 
+            user 
+        JOIN 
+            user_profile ON user_profile.user_id = user.id
+        JOIN 
+            jobapplication ON jobapplication.user_id = user.id
+        JOIN 
+            jobposting ON jobposting.id = jobapplication.job_posting_id
+        WHERE 
+            jobposting.agency_id = ? 
+            AND jobposting.id = ? AND jobapplication.status = ?;"
+        ,[$agency_id,$id,$param]);
+        
+        $data = jobposting::findOrFail($id);
+        session(['job_post_name'=>$data->job_post_name]);
+        session(['status'=>$param]);
+            return view("Company.pages.ViewAllApplication",['data'=>$query]);
+            
+        }
+        else{
+            return redirect("/user/companyLogin");
+        }
+    }
+
+    public function candidateViewmore(Request $req,$id){
+        if(session('agency_login')){
+            $user = UserTable::find($id);
+            $userProfile = user_profile::where("user_id",$user->id)->first();
+            $edu = education::where("user_id",$user->id)->get();
+            $exp = experience::where("user_id",$id)->get();
+            $certi = certificate::where("user_id",$id)->get();
+            $skill = skill::where("user_id",$id)->get();
+            $state = state::find($userProfile->state_id)->first();
+            $city = city::find($userProfile->city_id)->first();
+
+            return view("Company.pages.candidateViewmore",['user'=>$user,'userProfile'=>$userProfile,'edu'=>$edu,'exp'=>$exp,'certi'=>$certi,'skill'=>$skill,'state'=>$state,'city'=>$city]);
+        }
+        else{
+            return redirect("/user/companyLogin");
+        }
+    }
+
+    public function shortListApplication(Request $req, $id){
+        if(session("agency_login")){
+            $application = jobapplication::findOrFail($id);
+            $application->status = "shortlisted";
+            $application->save();
+            return redirect("/Company/viewAllApplication/shortlisted");
+        }
+    }
+    public function RejectApplication(Request $req, $id){
+        if(session("agency_login")){
+            $application = jobapplication::findOrFail($id);
+            $application->status = "rejected";
+            $application->save();
+            return redirect("/Company/viewAllApplication/rejected");
+        }
+    }
     
+    public function search(Request $req){
+        session(['jobPostingId'=>$req->selectPosting]);
+        return redirect("/Company/userChoiceSearch");
+    }
+    public function userChoiceSearch(){
+        return view("Company.pages.userChoiceSearch");
+    }
 }

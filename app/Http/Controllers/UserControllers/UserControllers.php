@@ -54,6 +54,8 @@ class UserControllers extends Controller
             $user->last_name = $validateData['lname'];
             $user->email = $validateData['email'];
             $user->password = bcrypt($validateData['password']);
+            $user->isActive = true;
+            $user->isBlocked = false;
             $user->save();
     
             // Get the user ID for the profile

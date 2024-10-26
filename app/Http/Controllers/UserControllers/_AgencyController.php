@@ -54,6 +54,8 @@ class _AgencyController extends Controller
             $agency->agency_name = $validateData['agencyname'];
             $agency->email = $validateData['email'];
             $agency->password = bcrypt($validateData['password']);
+            $agency->isActive = false;
+            $agency->isBlocked = false;
             $agency->save();
     
             // Get the user ID for the profile
@@ -90,13 +92,19 @@ class _AgencyController extends Controller
                 'agency_email' => $user->email,
                 'agency_name' => $user->agency_name,
             ]);
+            if(!$user->isActive){
+                return redirect("/user/companyLogin")->with('non_active',"Wait for Approval Account !");
+            }
+            if($user->isBlocked){
+                return redirect("/user/companyLogin")->with('non_active',"Your Account has been blocked for violeting T&C !");
+            }
             //dd(session()->all());
             // Redirect to the dashboard after successful login
             
             return redirect('/Company/Dashboard');
         } else {
             // Redirect with an error message using flash data
-            return redirect('/user/companyLogin')->withErrors(['error' => 'Email or Password Invalid']);
+            return redirect('/user/companyLogin')->with('error','Email or Password Invalid');
         }
     }
 

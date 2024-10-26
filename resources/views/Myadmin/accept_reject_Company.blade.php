@@ -44,6 +44,16 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
+                      @if (session('AccountStatus'))
+                      <div class="alert alert-danger">
+                        <ul>
+                          <li>{{session("AccountStatus")}}</li>
+                          @php
+                          session(['deleted'=>false]);
+                          @endphp
+                        </ul>
+                    </div>
+                      @endif
                       <h4 class="card-title">Accept / Reject</h4>
                       <div class="table-responsive">
                         <table class="table">
@@ -60,71 +70,24 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">TCS </span>
-                                </td>
-                                <td> 23/12/2002 </td>
-                                <td> tcs_org@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-warning" href="#">View More</a> </td>
-                                <td> <a class="btn btn-success badge badge-outline-success" href="#">Accept</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-danger" href="">Reject</a></td>
-                              </tr>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">TCS </span>
-                                </td>
-                                <td> 23/12/2002 </td>
-                                <td> tcs_org@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-success badge badge-outline-success" href="#">Accept</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Reject</a></td>
-                              </tr>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">TCS </span>
-                                </td>
-                                <td> 23/12/2002 </td>
-                                <td> tcs_org@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-success badge badge-outline-success" href="#">Accept</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Reject</a></td>
-                              </tr>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">TCS </span>
-                                </td>
-                                <td> 23/12/2002 </td>
-                                <td> tcs_org@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-success badge badge-outline-success" href="#">Accept</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Reject</a></td>
-                              </tr>
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">TCS </span>
-                                </td>
-                                <td> 23/12/2002 </td>
-                                <td> tcs_org@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-success badge badge-outline-success" href="#">Accept</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Reject</a></td>
-                              </tr>
+                          @foreach ($data as $data)
+                          
+                          <tr>
+                            <td>{{$data->id}}</td>
+                            <td>
+                              <img src="{{asset('images/agencyData/'. $data->image_url)}}" alt="image" />
+                              <span class="pl-2">{{$data->agency_name}} </span>
+                            </td>
+                            <td> {{$data->est_date}} </td>
+                            <td> {{$data->email}} </td>
+                            <td> {{$data->contact}} </td>
+                            <td> <a class="btn btn-warning badge badge-outline-warning" href="/Myadmin/companyViewmore/{{$data->id}}">View More</a> </td>
+                            <td> <a class="btn btn-success badge badge-outline-success" href="/Myadmin/agencyAccept/{{$data->id}}" onclick="return confirm('Are you Sure !')">Accept</a> </td>
+                            <td><a class="btn btn-danger badge badge-outline-danger" href="/Myadmin/agencyReject/{{$data->id}}" onclick="return confirm('Are you Sure ! This Will Delete Record as well ?')">Reject</a></td>
+                          </tr>
+
+                          @endforeach
+                              
                           </tbody>
                         </table>
                       </div>

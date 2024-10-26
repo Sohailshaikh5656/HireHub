@@ -44,7 +44,7 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <div class="card-body">
+                        <div class="card-body">
                       @if (session('AccountStatus'))
                       <div class="alert alert-danger">
                         <ul>
@@ -55,7 +55,7 @@
                         </ul>
                     </div>
                       @endif
-                      <h4 class="card-title">All Company</h4>
+                      <h4 class="card-title">All Blocked Account</h4>
                       <div class="table-responsive">
                         <table class="table">
                           <thead>
@@ -66,7 +66,7 @@
                               <th> Email </th>
                               <th> Contact </th>
                               <th> View More </th>
-                              <th> Block </th>
+                              <th> UnBlock </th>
                              
                               <th> Delete </th>
                             </tr>
@@ -83,8 +83,8 @@
                               <td> {{$data->email}} </td>
                               <td> {{$data->contact}} </td>
                               <td> <a class="btn btn-warning badge badge-outline-warning" href="/Myadmin/companyViewmore/{{$data->id}}">View More</a> </td>
-                              <td> <a class="btn btn-info badge badge-outline-info" href="/Myadmin/agencyBlock/{{$data->id}}" onclick="return confirm('Are you sure ! You want to block an account ?')">Block</a> </td>
-                              <td><a class="btn btn-danger badge badge-outline-danger" href="/Myadmin/agencyReject/{{$data->id}}" onclick="return confirm('Are you sure ! You want to Delete this account ?')">Delete</a></td>
+                              <td> <a class="btn btn-info badge badge-outline-info" href="/Myadmin/agencyUnBlock/{{$data->id}}" onclick="return confirm('Are you Sure ?')">UnBlock</a> </td>
+                              <td><a class="btn btn-danger badge badge-outline-danger" href="/Myadmin/agencyReject/{{$data->id}}" onclick="return confirm('Are you sure ? The account will be Delete !')">Delete</a></td>
                             </tr>
 
                             @endforeach

@@ -9,6 +9,7 @@ use App\Http\Controllers\AdminControllers\AdminManageAgencyController;
 use App\Http\Controllers\AdminControllers\AdminAddJobController;
 use App\Http\Controllers\AdminControllers\AdminSubJobController;
 use App\Http\Controllers\AdminControllers\AdminLogoutController;
+use App\Http\Controllers\AdminControllers\AdminResume;
 //User Controllers
 use App\Http\Controllers\UserControllers\UserControllers;
 use App\Http\Controllers\UserControllers\ContactControllers;
@@ -63,6 +64,16 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('Myadmin/userBlock',[AdminManageUserController::class,'userBlock']);
     Route::get('Myadmin/userReport', [AdminManageUserController::class,'userReport']);
     Route::get('Myadmin/accept_reject_Company', [AdminManageAgencyController::class,'accept_reject']);
+    Route::get("Myadmin/agencyAccept/{id}",[AdminManageAgencyController::class,'agencyAccept']);
+    Route::get("Myadmin/agencyReject/{id}",[AdminManageAgencyController::class,'agencyReject']);
+    Route::get("Myadmin/agencyBlock/{id}",[AdminManageAgencyController::class,'agencyBlock']);
+    Route::get("Myadmin/agencyUnBlock/{id}",[AdminManageAgencyController::class,'agencyUnBlock']);
+    Route::get("Myadmin/allBlockedCompany",[AdminManageAgencyController::class,'allBlockedCompany']);
+    Route::get("Myadmin/companyViewmore/{id}",[AdminManageAgencyController::class,'companyViewmore']);
+
+
+
+
     Route::get('Myadmin/manageJobListing',  [AdminManageAgencyController::class,'manageJobListing']);
     Route::get('Myadmin/allCompany', [AdminManageAgencyController::class,'allCompany']);
     
@@ -88,7 +99,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::view('Myadmin/feedback', 'Myadmin.feedback');
     Route::view('Myadmin/inquiry', 'Myadmin.inquiry');
     Route::view('Myadmin/reportAndAna', 'Myadmin.reportAndAna');
-    Route::view('Myadmin/resumeTemplate', 'Myadmin.resumeTemplate');
+    Route::get('Myadmin/resumeTemplate',[AdminResume::class,"resumeTemplate"]);
+    Route::post("Myadmin/addResume",[AdminResume::class,"addResume"])->name("addResume");
+
+
+
     Route::view('Myadmin/settings', 'Myadmin.settings');
     Route::view('Myadmin/login', 'Myadmin.login');
     Route::post('Myadmin/login',[AdminDaoController::class,'admin_auth'])->name('login');
@@ -109,9 +124,14 @@ Route::group(['middleware' => ['web']], function () {
 
 
     Route::get("Company/manageJobPosting",[CompanyManageJobPosting::class,'manageJobPosting']);
-    Route::view('Company/manageJobApplication', 'Company.pages.manageJobApplication');
-    
-    
+    Route::get('Company/manageJobApplication', [CompanyManageJobPosting::class,'searchPosting']);
+    Route::get('Company/viewAllApplication/{param}', [CompanyManageJobPosting::class,'viewAllApplication']);
+    Route::get('Company/candidateViewmore/{id}',[CompanyManageJobPosting::class,'candidateViewmore']);
+    Route::post('Company/search', [CompanyManageJobPosting::class,'search']);
+
+    Route::get('Company/shortListApplication/{id}', [CompanyManageJobPosting::class,'shortListApplication']);
+    Route::get('Company/RejectApplication/{id}', [CompanyManageJobPosting::class,'RejectApplication']);
+    Route::get("Company/userChoiceSearch",[CompanyManageJobPosting::class,'userChoiceSearch']);
     Route::get('Company/logout',[CompanyDashboardController::class,'logout']);
     
     
@@ -154,9 +174,18 @@ Route::group(['middleware' => ['web']], function () {
 
     Route::get("user/addSkill",[UserProfileController::class,'addSkill']);
     Route::post("user/storeSkill",[UserProfileController::class,'storeSkill'])->name("storeSkill");
+    Route::get("user/applicationTrack",[UserProfileController::class,'applicationTrack']);
+    Route::get("user/editUser/{id}",[UserProfileController::class,'userEdit']);
+    Route::put("user/updateUser/{id}",[UserProfileController::class,'updateUser'])->name("updateUser");
+    Route::get("user/editEducation/{id}",[UserProfileController::class,'editEducation']);
+    Route::put("user/updateEducation/{id}",[UserProfileController::class,'updateEducation'])->name("updateEducation");
+    Route::get("user/editExperience/{id}",[UserProfileController::class,'editExperience']);
+    Route::put("user/updateExperience/{id}",[UserProfileController::class,'updateExperience'])->name("updateExperience");
+    Route::get("user/editCertificate/{id}",[UserProfileController::class,'editCertificate']);
+    Route::put("user/updateCertificate/{id}",[UserProfileController::class,'updateCertificate'])->name("updateCertificate");
 
-   
 
+    Route::view("user/resumePage","user.resumeLandingPage");
     //Route for PDF View
     Route::get("/pdf/view",[PDFController::class,'pdfView'])->name("pdf.view");
     //Route to convert PDF

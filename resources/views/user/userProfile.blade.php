@@ -204,10 +204,21 @@ svg {
                 </ol>
               </nav>
               <!-- /Breadcrumb -->
+              <div class="msg d-flex align-item-center" style="width: 80%">
+                @if (session('updated'))
+                <div class="alert alert-success" role="alert">
+                  {{session("updated")}}
+                  @php
+                    session()->forget(['updated'])
+                  @endphp
+                </div>
+                @endif
+              </div>
         
               <div class="row gutters-sm">
                 <div class="col-md-4 mb-3">
                   <div class="card">
+                   
                     <div class="card-body">
                       <div class="d-flex flex-column align-items-center text-center">
                         <img src="{{ asset('images/userData/' . $userProfile->ImageUrl) }}" alt="Admin" class="rounded-circle" width="150" height="150">
@@ -244,6 +255,13 @@ svg {
                         <span class="text-secondary">bootdey</span>
                       </li>
                     </ul>
+                  </div>
+                  <div class="col-12 mt-2">
+                    <div class="card">
+                      <div class="card-body">
+                        <a class="btn btn-danger" href="/user/applicationTrack" style="color: #fff; font-weight: 600;">Track All Application</a>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-8">
@@ -305,7 +323,7 @@ svg {
                       <hr>
                       <div class="row">
                         <div class="col-sm-12">
-                          <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                          <a class="btn btn-info " target="__blank" href="/user/editUser/{{$user->id}}">Edit</a>
                         </div>
                       </div>
                     </div>
@@ -319,7 +337,7 @@ svg {
                             <div class="card-body" style="display: flex; justify-content: space-between">
                                     <p class="mt-1">Education</p>
                                     <div><a class="btn btn-primary" style="color:white;" href="/user/addEducation">Add Education</a>
-                                        <a class="btn btn-danger" style="color:white;">Edit Education</a> </div>
+                                       </div>
                                     
                             </div>
                         </div>
@@ -360,7 +378,12 @@ svg {
                                             <circle cx="80" cy="80" r="70" stroke-linecap="round" id="progressCircle"/>
                                         </svg>
                                     </div> 
+                                    <div class="d-flex justify-content-center mt-4"> <!-- Adjust this value as needed -->
+                                      <a class="btn btn-danger" style="color: white;" href="/user/editEducation/{{$education->id}}">Edit Education</a>
                                   </div>
+                                  
+                                  </div>
+                                  
                               </div>
                           </div>
                         @endforeach
@@ -372,7 +395,7 @@ svg {
                             <div class="card-body" style="display: flex; justify-content: space-between">
                                     <p class="mt-1">Expreince</p>
                                     <div><a class="btn btn-primary" style="color:white;" href="/user/addExperience">Add Experiance</a>
-                                        <a class="btn btn-danger" style="color:white;">Edit Experiance</a> </div>
+                                    </div>
                                     
                             </div>
                         </div>
@@ -394,8 +417,11 @@ svg {
                           <div class="card-body">
                             <large style="font-size: 1.1rem;"><strong>Starting Year:</strong> <span style="color: #555;">{{ $ExpData->starting_year }}</span></large><br><hr>
                             <large style="font-size: 1.1rem;"><strong>Ending Year:</strong> <span style="color: #555;">{{ $ExpData->ending_year }}</span></large><br><hr>
-                            <large style="font-size: 1.1rem;"><strong>Institution Name:</strong> <span style="color: #555;">{{ $ExpData->inst }}</span></large><br><hr>
-                            <large style="font-size: 1.1rem;"><strong>Institution Address:</strong> <span style="color: #555;">{{ $ExpData->school_name }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Institution Name:</strong> <span style="color: #555;">{{ $ExpData->institution_name }}</span></large><br><hr>
+                            <large style="font-size: 1.1rem;"><strong>Institution Address:</strong> <span style="color: #555;">{{ $ExpData->intitution_address }}</span></large><br><hr>
+                            <div class="d-flex justify-content-center mt-4"> <!-- Adjust this value as needed -->
+                              <a class="btn btn-danger" style="color: white;" href="/user/editExperience/{{$ExpData->id}}">Edit Experience</a>
+                          </div>
                           </div>
                         </div>
                     </div>
@@ -409,8 +435,8 @@ svg {
                         <div class="card h-20">
                             <div class="card-body" style="display: flex; justify-content: space-between">
                                     <p class="mt-1">Award & Certification</p>
-                                    <div><a class="btn btn-primary" style="color:white;" href="/user/addCertificte">Add </a>
-                                        <a class="btn btn-danger" style="color:white;">Edit</a> </div>
+                                    <div><a class="btn btn-primary" style="color:white;" href="/user/addCertificte">Add Certificate</a>
+                                    </div>
                                     
                             </div>
                         </div>
@@ -423,7 +449,9 @@ svg {
                             <large style="font-size: 1.1rem;"><strong>Certificate Name:</strong> <span style="color: #555;">{{ $Certi->certificate_name }}</span></large><br><hr>
                             <large style="font-size: 1.1rem;"><strong>Description:</strong> <span style="color: #555;">{{ $Certi->description }}</span></large><br><hr>
                             <large style="font-size: 1.1rem;"><strong>Completion Date :</strong> <span style="color: #555;">{{ $Certi->completion_date }}</span></large><br><hr>
-
+                            <div class="d-flex justify-content-center mt-4"> <!-- Adjust this value as needed -->
+                              <a class="btn btn-danger" style="color: white;" href="/user/editCertificate/{{$Certi->id}}">Edit Certificate</a>
+                          </div>
                           </div>
                         </div>
                     </div>

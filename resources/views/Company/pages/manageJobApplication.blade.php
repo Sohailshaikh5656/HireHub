@@ -34,6 +34,19 @@
   <link href="{{asset ('company_mat/assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{{asset ('company_mat/assets/css/soft-ui-dashboard.css?v=1.0.3')}}" rel="stylesheet" />
+  <style>
+    .searchByPost{
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      height: 30vh;
+      background-color: aqua;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 4px 5px 3px darkcyan;
+      margin-bottom: 30px;
+    }
+  </style>
 </head>
 @php
     $pagename = "Manage Job Posting"
@@ -51,17 +64,21 @@
                 <div class="row">
                     <div class="col-1"></div> <!-- This is an empty column, adjust or remove if not needed -->
                     <div class="col-6 mt-5">
-                        <form>
-                            <div>
-                                <select class="form-control">
-                                    <option>Python Devs</option>
-                                    <option>Python Devs</option>
-                                    <option>Python Devs</option>
+                        <form method="post" action="/Company/search">
+                          @csrf
+                            <div class="searchByPost">
+                              <label> Search By Post Name</label>
+                                <select class="form-control" name="selectPosting">
+                                    <option>---Select Posting---</option>
+                                    @foreach ($data as $data )
+                                    <option value={{$data->id}}>{{$data->job_post_name}}</option>
+                                    @endforeach
                                 </select>
+                                <div class="mt-2">
+                                  <input type="submit" value="Search" class="btn btn-success">
+                              </div>
                             </div>
-                            <div class="mt-2">
-                                <input type="submit" value="Search" class="btn btn-success">
-                            </div>
+                           
                         </form>
                     </div>
                 </div>

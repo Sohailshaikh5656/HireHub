@@ -44,16 +44,103 @@
         @include('Myadmin.common.navbar')
         <!-- partial -->
         <div class="main-panel">
-          <div class="content-wrapper">
-            <center><p class="mmsg">Be Paitent , We will provide some cruital updates and reports</p></center>
+         
+            <div class="content-wrapper">
+              @if ($errors->any())
+              <div class="alert alert-danger">
+                  <ul>
+                      @foreach ($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
+              </div>
+             
+                 
 
+                  @elseif (session('added'))
+              <div class="alert alert-succes">
+                <ul>
+                        <li>Resume Added !</li>
+                        @php
+                          session(['added'=>false]);
+                        @endphp
+                        
+                      </ul>
+                  </div>
+
+                  @elseif (session('empty'))
+              <div class="alert alert-succes">
+                <ul>
+                        <li>Some thing Wrong Happened !</li>
+                        @php
+                          session(['empty'=>false]);
+                        @endphp
+                        
+                      </ul>
+                  </div>
+                @endif
+              <form action="/Myadmin/addResume" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                  <div class="col-3"></div>
+                  <div class="col-9 p-3 ">
+                    <h4 class="mb-1">Resume Add Form</h4>
+                    <div class="mt-2">
+                      <input type="text" name="name" id="" class="form-control" placeholder="Enter Name of Design or Resume Name">
+                    </div>
+                  <div class="mt-3">
+                    <input type="file" name="resumefile" class="form-control">
+                  </div>
+                  <div class="mt-3">
+                    <input class="btn btn-danger" type="submit">
+                  </div>
+                  <div class="mt-4">
+                    <p>Note : Uploads only blade file desing with simpl css and Html code.</p>
+                    <p>Note : After Uploading Change the code of file in blade</p>
+                  </div>
+
+                  </div>
+                </div>
+
+                <div class="row mt-4">
+                 <div class="col-2"></div>
+                  <div class="col-10">
+                    <table cellpadding=10 cellspacing=0 align="center" style="width: 100%">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Name</th>
+                          <th>File Name</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                        </tr>
+                        
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Simple</td>
+                          <td>Resume</td>
+                          <td><a href="" class="btn btn-primary">Edit</a></td>
+                          <td><a href="" class="btn btn-danger">Delete</a></td>
+                        </tr>
+                      </tbody>
+      
+                    </table>
+                  
+              </div>
             </div>
+            </div>
+          </form>
+         
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
           @include('Myadmin.common.footer')
           <!-- partial -->
         </div>
+
+      
         <!-- main-panel ends -->
       </div>
       <!-- page-body-wrapper ends -->

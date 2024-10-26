@@ -9,6 +9,13 @@ use App\Models\certificate;
 use App\Models\skill;
 use App\Models\user_profile;
 use App\Models\UserTable;
+use App\Models\jobposting;
+use App\Models\agency;
+use App\Models\state;
+use App\Models\city;
+use App\Models\jobapplication;
+
+use Illuminate\Support\Facades\DB;
 class UserProfileController extends Controller
 {
     public function userProfile(){
@@ -226,4 +233,217 @@ class UserProfileController extends Controller
             return redirect('/user/login');
         }
     }
+
+    public function applicationTrack(){
+        $user_id = (int)session('user_id');
+        $data = DB::select("SELECT 
+        jobapplication.created_at AS appliedtime,
+        jobposting.job_post_name AS post,
+        agency.agency_name,
+        jobapplication.status 
+    FROM jobapplication
+    JOIN jobposting ON jobposting.id = jobapplication.job_posting_id
+    JOIN agency ON agency.id = jobposting.agency_id
+    JOIN user ON user.id = jobapplication.user_id
+    WHERE user.id = ?;
+        ",[$user_id]);
+
+        return view("user.applicationTrack",['data'=>$data]);
+    }
+
+    public function userEdit(){
+        if(session("user_login")){
+            $user_id = (int) session("user_id");
+            $user = UserTable::findOrFail($user_id);
+            $data = user_profile::where('user_id',$user_id)->first();
+            $state = state::find($data->state_id)->get();
+            $city = city::find($data->city_id)->get();
+            return view("user.userEdit",['user'=>$user,'data'=>$data,'state'=>$state,'city'=>$city]);
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
+    public function updateUser(Request $req, $id) {
+        // Check if user is logged in
+        if (session('user_id')) {
+            // Validate the incoming request data
+            $validatedData = $req->validate([
+                'fname' => 'required|string|min:3',
+                'lname' => 'required|string|min:3',
+                'email' => 'required|string|email',
+                'contact' => 'required|digits:10', // Fixed the typo from 'conatact' to 'contact'
+                'DOB' => 'required|date',
+                'gender' => 'required|string',
+                'state' => 'required',
+                'city' => 'required',
+                'address' => 'required|string|min:10'
+            ]);
+    
+            // If validation passes
+            if ($validatedData) {
+                $userId = (int) session('user_id');
+    
+                // Update UserTable information
+                $user = UserTable::find($userId);
+                if ($user) {
+                    $user->first_name = $validatedData['fname'];
+                    $user->last_name = $validatedData['lname'];
+                    $user->email = $validatedData['email'];
+                    $user->save(); // Save user details
+                }
+    
+                // Update user profile information
+                $profileData = user_profile::where('user_id', $userId)->first();
+                if ($profileData) {
+                    $profileData->contact = $validatedData['contact'];
+                    $profileData->DOB = $validatedData['DOB'];
+                    $profileData->gender = $validatedData['gender'];
+                    $profileData->address = $validatedData['address'];
+                    $profileData->state_id = $validatedData['state']; // Fixed variable name from $profile to $profileData
+                    $profileData->city_id = $validatedData['city']; // Fixed variable name from $profile to $profileData
+                    $profileData->save(); // Save profile details
+                }
+    
+                // Set a session message for feedback
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+            }
+        }
+    
+        // If not logged in or validation fails, redirect back or handle the error
+        return redirect()->back()->withErrors(['message' => 'An error occurred.']);
+    }
+
+
+    public function editEducation($id){
+        if(session("user_login")){
+            $data = education::findOrFail($id);
+            return view("user.editEducation",['data'=>$data]);
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+    
+    public function updateEducation(Request $req, $id){
+        if(session("user_login")){
+            $validatedData = $req->validate([
+               'degree'=>'required|string|min:2',
+               'board'=>'required|string|min:3',
+               'startingDate'=>'required|date',
+               'endingDate'=>'required|date',
+               'school_name'=>'required|string|min:3',
+               'percentage'=>'required|string'
+
+            ]);
+            if($validatedData){
+                $data = education::findOrFail($id);
+                $data->degree = $validatedData['degree'];
+                $data->board = $validatedData['board'];
+                $data->starting_year = $validatedData['startingDate'];
+                $data->ending_year = $validatedData['endingDate'];
+                $data->school_name = $validatedData['school_name'];
+                $data->grade = $validatedData['percentage'];
+                $data->save();
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+           }
+           else{
+            return redirect()->back()->withErrors(['message' => 'An error occurred.']);
+           }
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
+    public function editExperience($id){
+        if(session("user_login")){
+            $data = experience::findOrFail($id);
+            return view("user.editExperience",['data'=>$data]);
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
+    public function updateExperience(Request $req, $id){
+        if(session("user_login")){
+            $validatedData = $req->validate([
+               'postName'=>'required|string|min:3',
+               'postDescription'=>'required|string|min:3',
+               'departmentName'=>'required|string|min:3',
+               'startingDate'=>'required|date',
+               'endingDate'=>'required|date',
+               'industry'=>'required|string|min:3',
+               'institutionName'=>'required|string',
+               'institutionAddress'=>'required|string|min:3',     
+            ]);
+            if($validatedData){
+                $data = experience::findOrFail($id);
+                $data->post_name = $validatedData['postName'];
+                $data->post_description = $validatedData['postDescription'];
+                $data->department_name = $validatedData['departmentName'];
+                $data->starting_year = $validatedData['startingDate'];
+                $data->ending_year = $validatedData['endingDate'];
+                $data->industry = $validatedData['industry'];
+                $data->institution_name = $validatedData['institutionName'];
+                $data->intitution_address = $validatedData['institutionAddress'];
+                $data->save();
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+           }
+           else{
+            return redirect()->back()->withErrors(['message' => 'An error occurred.']);
+           }
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
+    public function editCertificate($id){
+        if(session("user_login")){
+            $data = certificate::findOrFail($id);
+            return view("user.editCertificate",['data'=>$data]);
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+    public function updateCertificate(Request $req, $id){
+        if(session("user_login")){
+            $validatedData = $req->validate([
+               'cname'=>'required|string|min:3',
+               'cdes'=>'required|string|min:3',
+               'cdate'=>'required|date|min:3',
+                 
+            ]);
+            if($validatedData){
+                $data = certificate::findOrFail($id);
+                $data->certificate_name = $validatedData['cname'];
+                $data->description = $validatedData['cdes'];
+                $data->completion_date = $validatedData['cdate'];
+                
+                $data->save();
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+                session(["updated" => "Profile Updated!"]);
+                return redirect("/user/userProfile");
+           }
+           else{
+            return redirect()->back()->withErrors(['message' => 'An error occurred.']);
+           }
+        }
+        else{
+            return redirect("/user/login");
+        }
+    }
+
 }

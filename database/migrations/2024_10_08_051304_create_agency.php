@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('agency_name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean("isActive");
+            $table->boolean("isBlocked");
             $table->timestamps();
         });
     }

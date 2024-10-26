@@ -100,7 +100,7 @@
             color: #A9A9A9;
         }
         .form1 {
-              width: clamp(320px, 30%, 420px);
+            width: clamp(480px, 45%, 630px);
               margin: 0 auto;
               padding: 1.5rem;
               border-radius: 0.35rem;
@@ -161,7 +161,7 @@
             text-align: center;
         }
         .site-section {
-        height: 100vh; /* Full viewport height */
+        height: 150vh; /* Full viewport height */
         background-size: cover; /* Cover the entire section */
         background-repeat: no-repeat; /* Prevent the image from repeating */
         background-position: center; /* Center the image */
@@ -218,86 +218,59 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Agency Login Page</h1>
+                    <h1 class="text-white font-weight-bold">Update certificate Page</h1>
                     <div class="custom-breadcrumbs">
                         <a href="/user/Home">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>Agency Login Page</strong></span>
+                        <span class="text-white"><strong>Update certificate Page</strong></span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="site-section" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
+    <section class="site-section vh-200" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
         
-                        {{-- <h2 class="mb-4" style="color: #fff;">Register To Hire Hub</h2> --}}
-                        <form action="/user/agencyAuthChk" class="form1" method="post">
-                            @if (session('error'))
-
-                            <div class="alert alert-danger">
-                                <ul>
-                                        <li>{{session('error')}}</li>
-                                        @php
-                                              session()->forget('error');
-                                        @endphp
-                                </ul>
-                            </div>
-                            @elseif (session('non_active'))
-                            <div class="alert alert-danger">
-                                <ul>
-                                        <li>{{session('non_active')}}</li>
-                                        @php
-                                              session()->forget('non_active');
-                                        @endphp
-                                </ul>
-                            </div>
-                            @elseif (session('error'))
-                            <div class="alert alert-danger">
-                                <ul>
-                                        <li>{{session('error')}}</li>
-                                        @php
-                                              session()->forget('error');
-                                        @endphp
-                                </ul>
-                            </div>
-                            @endif
-                            
-                            @csrf
-                            <h1 class="text-center1" style="color:#fff;">Agency Login Page</h1>
-                            <!-- Progress Bar -->
-                            {{-- <div class="progressbar1">
-                                <div class="progress1" id="progress1"></div>
-                                <div class="progress-step1 progress-step-active1" data-title="Email"></div>
-                                <div class="progress-step1" data-title="Name"></div>
-                                <div class="progress-step1" data-title="Contact"></div>
-                                <div class="progress-step1" data-title="Image"></div>
-                                <div class="progress-step1" data-title="State"></div>
-                                
-                            </div> --}}
-                            <!-- Steps -->
-                            <!-- Personal Info 1 -->
-                            <div class="form-step1 form-step-active1">
-                                <div class="input-group1">
-                                    <label for="email1">Email</label>
-                                    <input type="email" name="email" id="username1">
-                                </div>
-                                <div class="input-group1">
-                                    <label>Password</label>
-                                    <input type="password" name="password" id="password1">
-                                </div>
-                                <div class="input-group1">
-                                    <a class="forget" href="">Forget Passord ?</a>
-                                </div>
-                                <div class="btns-group1">
-                                    <button type="sybmit" value="Log In" class="btn btn-primary p-3" >Login</button>
-                                </div>
-
-                                <div class="input-group1">
-                                  <a class="">Have an Account ? </a><a href="" class="forget">&nbsp;Register</a>
-                              </div>
-                            </div>
-                    
-                        </form>
+        <form action="/user/updateCertificate/{{$data->id}}" class="form1" method="post">
+            @csrf
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger">
+                <ul>
+                    <li>{{ session('error') }}</li>
+                </ul>
+            </div>
+            @endif
+            <h1 class="text-center1" style="color:#fff;">Update Certification</h1>
+        
+            <div class="form-step1 form-step-active1">
+                <div class="input-group1">
+                    <label for="certificateName">Certificate Name</label>
+                    <input type="text" value="{{$data->certificate_name}}" name="cname" id="certificateName" placeholder="Ex: Python Trainee" value="{{ old('certificateName') }}">
+                </div>
+                <div class="input-group1">
+                    <label for="certificateDescription">Certificate Description</label>
+                    <textarea name="cdes" class="form-control" id="certificateDescription" placeholder="Enter description">{{$data->description}}</textarea>
+                </div>
+        
+                <div class="input-group1 col-6">
+                    <label for="completionDate">Completion Date</label>
+                    <input type="date" name="cdate" id="completionDate" value="{{$data->description}}">
+                </div>
+        
+                <div class="btns-group1">
+                    <button type="submit" class="btn btn-primary p-3">Update Certificate</button>
+                </div>
+            </div>
+        </form>
+        
                    
     </section>
 

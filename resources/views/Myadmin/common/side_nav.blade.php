@@ -94,6 +94,8 @@
             <li class="nav-item"> <a class="nav-link" href="/Myadmin/accept_reject_Company">Approve / Reject Accounts</a></li>
             <li class="nav-item"> <a class="nav-link" href="/Myadmin/manageJobListing">Manage Job Listing</a></li>
             <li class="nav-item"> <a class="nav-link" href="/Myadmin/allCompany">All Companies</a></li>
+            <li class="nav-item"> <a class="nav-link" href="/Myadmin/allBlockedCompany">All Blocked A/C</a></li>
+
           </ul>
         </div>
       </li>

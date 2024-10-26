@@ -59,101 +59,23 @@
                             </tr>
                           </thead>
                           <tbody>
+                            @foreach ($data as $data)
                             <tr>
-                              <td>1</td>
+                              <td>{{$data->id}}</td>
                               <td>
                                 <img src="assets/images/faces/face1.jpg" alt="image" />
-                                <span class="pl-2">Henry </span>
+                                <span class="pl-2">{{$data->first_name}} </span>
                               </td>
-                              <td> Klein </td>
-                              <td> shaikhhenry1131@gmail.com </td>
-                              <td> 6354621866 </td>
+                              <td> {{$data->last_name}} </td>
+                              <td> {{$data->email}} </td>
+                              <td> {{$data->contact}} </td>
                               <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
                               <td> <a class="btn btn-primary badge badge-outline-success" href="#">Edit</a> </td>
                               <td><a class="btn btn-danger badge badge-outline-success" href="">Delete</a></td>
                             </tr>
-                           
-                            <tr>
-                                <td>
-                                  <div class="form-check form-check-muted m-0">
-                                    <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
-                                    </label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-primary badge badge-outline-success" href="#">Edit</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Delete</a></td>
-                              </tr>
-                           
-                              <tr>
-                                <td>
-                                  <div class="form-check form-check-muted m-0">
-                                    <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
-                                    </label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-primary badge badge-outline-success" href="#">Edit</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Delete</a></td>
-                              </tr>
-                           
-                              <tr>
-                                <td>
-                                  <div class="form-check form-check-muted m-0">
-                                    <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
-                                    </label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-primary badge badge-outline-success" href="#">Edit</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Delete</a></td>
-                              </tr>
-                           
-                              <tr>
-                                <td>
-                                  <div class="form-check form-check-muted m-0">
-                                    <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
-                                    </label>
-                                  </div>
-                                </td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-primary badge badge-outline-success" href="#">Edit</a> </td>
-                                <td><a class="btn btn-danger badge badge-outline-success" href="">Delete</a></td>
-                              </tr>
-                             
                           </tbody>
+                            @endforeach
+                           
                         </table>
                       </div>
                     </div>

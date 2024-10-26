@@ -100,7 +100,7 @@
             color: #A9A9A9;
         }
         .form1 {
-              width: clamp(320px, 30%, 420px);
+            width: clamp(480px, 45%, 630px);
               margin: 0 auto;
               padding: 1.5rem;
               border-radius: 0.35rem;
@@ -161,7 +161,7 @@
             text-align: center;
         }
         .site-section {
-        height: 100vh; /* Full viewport height */
+        height: 150vh; /* Full viewport height */
         background-size: cover; /* Cover the entire section */
         background-repeat: no-repeat; /* Prevent the image from repeating */
         background-position: center; /* Center the image */
@@ -218,54 +218,42 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Agency Login Page</h1>
+                    <h1 class="text-white font-weight-bold">Add Education Page</h1>
                     <div class="custom-breadcrumbs">
                         <a href="/user/Home">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>Agency Login Page</strong></span>
+                        <span class="text-white"><strong>User Education Page</strong></span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="site-section" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
+    <section class="site-section vh-200" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
         
                         {{-- <h2 class="mb-4" style="color: #fff;">Register To Hire Hub</h2> --}}
-                        <form action="/user/agencyAuthChk" class="form1" method="post">
+                        <form action="/user/updateEducation/{{$data->id}}" class="form1" method="post">
+                            @csrf
+                            @method('PUT')
+                            @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
                             @if (session('error'))
 
                             <div class="alert alert-danger">
                                 <ul>
                                         <li>{{session('error')}}</li>
-                                        @php
-                                              session()->forget('error');
-                                        @endphp
-                                </ul>
-                            </div>
-                            @elseif (session('non_active'))
-                            <div class="alert alert-danger">
-                                <ul>
-                                        <li>{{session('non_active')}}</li>
-                                        @php
-                                              session()->forget('non_active');
-                                        @endphp
-                                </ul>
-                            </div>
-                            @elseif (session('error'))
-                            <div class="alert alert-danger">
-                                <ul>
-                                        <li>{{session('error')}}</li>
-                                        @php
-                                              session()->forget('error');
-                                        @endphp
                                 </ul>
                             </div>
                             @endif
-                            
-                            @csrf
-                            <h1 class="text-center1" style="color:#fff;">Agency Login Page</h1>
+                            <h1 class="text-center1" style="color:#fff;">Add Education</h1>
                             <!-- Progress Bar -->
-                            {{-- <div class="progressbar1">
+                            {{-- <div class="progaessbar1">
                                 <div class="progress1" id="progress1"></div>
                                 <div class="progress-step1 progress-step-active1" data-title="Email"></div>
                                 <div class="progress-step1" data-title="Name"></div>
@@ -278,23 +266,37 @@
                             <!-- Personal Info 1 -->
                             <div class="form-step1 form-step-active1">
                                 <div class="input-group1">
-                                    <label for="email1">Email</label>
-                                    <input type="email" name="email" id="username1">
+                                    <label for="email1">Degree </label>
+                                    <input type="text" name="degree" id="username1" placeholder="Ssc/ Hsc/ B.Com" value="{{$data->degree}}">
                                 </div>
                                 <div class="input-group1">
-                                    <label>Password</label>
-                                    <input type="password" name="password" id="password1">
+                                    <label>Board / University</label>
+                                    <input type="text" value="{{$data->board}}" name="board" id="password1" placeholder="Enter Board">
                                 </div>
-                                <div class="input-group1">
-                                    <a class="forget" href="">Forget Passord ?</a>
-                                </div>
-                                <div class="btns-group1">
-                                    <button type="sybmit" value="Log In" class="btn btn-primary p-3" >Login</button>
-                                </div>
+                                <div class="row" style="margin-top:-30px; margin-bottom:-30px">
+                                    <div class="input-group1 col-6" >
+                                        <label for="email1">Starting Date </label>
+                                        <input type="date" value="{{$data->starting_year}}" name="startingDate" id="username1">
+                                    </div>
 
+                                    <div class="input-group1 col-6">
+                                        <label>Ending Date </label>
+                                        <input type="date" value="{{$data->ending_year}}" name="endingDate" id="password1" >
+                                    </div>
+                                  
+                                </div>
                                 <div class="input-group1">
-                                  <a class="">Have an Account ? </a><a href="" class="forget">&nbsp;Register</a>
-                              </div>
+                                    <label>Institution / School Name</label>
+                                    <input type="text" name="school_name" value="{{$data->school_name}}" id="password1">
+                                </div>
+                                <div class="input-group1">
+                                    <label>Percentage</label>
+                                    <input type="number" name="percentage" value="{{$data->grade}}" id="percentage" min="0" max="100" step="0.01" required>
+                                </div>
+                                
+                                <div class="btns-group1">
+                                    <button type="submit" value="Log In" class="btn btn-primary p-3" >Add Education</button>
+                                </div>
                             </div>
                     
                         </form>
