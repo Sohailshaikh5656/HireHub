@@ -139,27 +139,27 @@ class CompanyManageJobPosting extends Controller
         
     }
 
-    public function updateJobPosting(Request $req, $id){
-        if(session("agency_login")){
-            $record = jobposting::findOrFail($id);
-            if($record){
+    public function updateJobPosting(Request $req, $id) {
+        if (session("agency_login")) {
+            $record = jobposting::findOrFail($id); // Fetch the job posting by ID
+            if ($record) {
                 $ValidateData = $req->validate([
-                    'job_category'=> 'required|integer',
-                    'job_sub_category'=> 'required|string',
-                    'min_sal'=>'required',
-                    'max_sal'=>'required',
-                    'min_exp'=>'required',
-                    'max_exp'=>'required',
-                    'degree_require'=>'required',
-                    'requirement'=>'required|string',
-                    'description'=> 'required|string',
-                    'state_id'=>'required|not_in:0',
-                    'city_id'=>'required|not_in:0',
-                    'DeadLine'=>"required|date",
-                    "benefit"=>"required|string"
-                    
+                    'job_category' => 'required|integer',
+                    'job_sub_category' => 'required|string',
+                    'min_sal' => 'required',
+                    'max_sal' => 'required',
+                    'min_exp' => 'required',
+                    'max_exp' => 'required',
+                    'degree_require' => 'required',
+                    'requirement' => 'required|string',
+                    'description' => 'required|string',
+                    'state_id' => 'required|not_in:0',
+                    'city_id' => 'required|not_in:0',
+                    'DeadLine' => "required|date",
+                    "benefit" => "required|string"
                 ]);
-                if($ValidateData){
+    
+                if ($ValidateData) {
                     $record->jobcategory_id = $ValidateData['job_category'];
                     $record->job_post_name = $ValidateData['job_sub_category'];
                     $record->description = $ValidateData['description'];
@@ -172,20 +172,22 @@ class CompanyManageJobPosting extends Controller
                     $record->state_id = $ValidateData['state_id'];
                     $record->city_id = $ValidateData['city_id'];
                     $record->agency_id = (int) session('agency_id');
-                    $newJobPosting->Deadline = $ValidateData['DeadLine'];
-                    $newJobPosting->benefit = $ValidateData['benefit'];
-                    $record->save();
-                    session(['postingUpdate'=>true]);
+                    $record->Deadline = $ValidateData['DeadLine'];
+                    $record->benefit = $ValidateData['benefit'];
+    
+                    $record->save(); // Save the updated record
+                    session(['postingUpdate' => true]);
+    
                     return redirect("/Company/manageJobPosting");
                 }
-            }else{
+            } else {
                 return redirect("/Company/manageJobPosting");
             }
-        }
-        else{
+        } else {
             return redirect("/user/companyLogin");
         }
     }
+    
 
     public function postDelete(Request $req,$id){
         $data = jobposting::findOrFail($id);
@@ -284,4 +286,5 @@ class CompanyManageJobPosting extends Controller
     public function userChoiceSearch(){
         return view("Company.pages.userChoiceSearch");
     }
+
 }

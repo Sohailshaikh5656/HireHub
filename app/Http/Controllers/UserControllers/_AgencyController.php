@@ -7,7 +7,9 @@ use App\Models\state;
 use App\Models\city;
 use App\Models\agency;
 use App\Models\agency_profile;
+use App\Models\login_atemp;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class _AgencyController extends Controller
 {
@@ -56,6 +58,7 @@ class _AgencyController extends Controller
             $agency->password = bcrypt($validateData['password']);
             $agency->isActive = false;
             $agency->isBlocked = false;
+            $agency->last_login = Carbon::today();
             $agency->save();
     
             // Get the user ID for the profile
@@ -83,8 +86,25 @@ class _AgencyController extends Controller
     {
         $auth = $request->only('email', 'password');
         $user = agency::where('email', $auth['email'])->first();
-        
+        $temp = login_atemp::all();
+        if($temp->isEmpty()){
+            $data = new login_atemp();
+            $data->success = 0;
+            $data->fail = 0;
+            $data->save();
+        } 
+        $data = login_atemp::find(1);
         if ($user && Hash::check($auth['password'], $user->password)) {
+            if(!$user->isActive){
+                $data->fail = $data->fail + 1;
+                $data->save();
+                return redirect("/user/companyLogin")->with('non_active',"Wait for Approval Account !");
+            }
+            if($user->isBlocked){
+                $data->fail = $data->fail + 1;
+                $data->save();
+                return redirect("/user/companyLogin")->with('non_active',"Your Account has been blocked for violeting T&C !");
+            }
             // Set session variables for the authenticated agency
             session([
                 'agency_login' => true,
@@ -92,18 +112,18 @@ class _AgencyController extends Controller
                 'agency_email' => $user->email,
                 'agency_name' => $user->agency_name,
             ]);
-            if(!$user->isActive){
-                return redirect("/user/companyLogin")->with('non_active',"Wait for Approval Account !");
-            }
-            if($user->isBlocked){
-                return redirect("/user/companyLogin")->with('non_active',"Your Account has been blocked for violeting T&C !");
-            }
+            
             //dd(session()->all());
             // Redirect to the dashboard after successful login
-            
+            $user->last_login = Carbon::today();
+            $data->success = $data->success + 1;
+            $user->save();
+            $data->save();
             return redirect('/Company/Dashboard');
         } else {
             // Redirect with an error message using flash data
+            $data->fail = $data->fail + 1;
+            $data->save();
             return redirect('/user/companyLogin')->with('error','Email or Password Invalid');
         }
     }

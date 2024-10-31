@@ -253,6 +253,17 @@
                                 </ul>
                             </div>
                             @endif
+                            @if (session('non_active'))
+
+                            <div class="alert alert-danger">
+                                <ul>
+                                        <li>{{session('non_active')}}</li>
+                                        @php
+                                        session(['non_active'=>false]);
+                                      @endphp
+                                </ul>
+                            </div>
+                            @endif
                             <h1 class="text-center1" style="color:#fff;">User Login Page</h1>
                             <!-- Progress Bar -->
                             {{-- <div class="progaessbar1">

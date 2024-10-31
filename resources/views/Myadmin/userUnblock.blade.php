@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>HireHub | Admin UserReport</title>
+    <title>HireHub | Admin UserUnBlock</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset ('admin_mat/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css')}}">
@@ -41,11 +41,19 @@
          <div class="content-wrapper">
             <div class="row ">
                 <div class="col-12 grid-margin">
+                  @if(session("blocked"))
+                    <div class="alert alert-primary" role="alert">
+                      {{session('blocked')}}
+                      @php
+                        session(["blocked"=>false]);
+                      @endphp
+                    </div>
+                  @endif
                   <div class="card">
                     <div class="card-body">
                       <h4 class="card-title">User Report</h4>
                       Any Report Reported by user like Techinal problem, or any violeation by agencies
-                      {{-- <div class="table-responsive">
+                      <div class="table-responsive">
                         <table class="table">
                           <thead>
                             <tr>
@@ -59,63 +67,28 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>
-                                <img src="assets/images/faces/face1.jpg" alt="image" />
-                                <span class="pl-2">Henry </span>
-                              </td>
-                              <td> Klein </td>
-                              <td> shaikhhenry1131@gmail.com </td>
-                              <td> 6354621866 </td>
-                              <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                            </tr>
+                          @foreach ($data as $data)
+                          <tr>
+                            <td>{{$data->id}}</td>
+                            <td>
+                              <img src="{{asset ('images/userData/'.$data->ImageUrl)}}" alt="image" />
+                              <span class="pl-2">{{$data->first_name}} </span>
+                            </td>
+                            <td> {{$data->last_name}} </td>
+                            <td>{{$data->email}} </td>
+                            <td> {{$data->contact}} </td>
+                            <td> <a class="btn btn-warning badge badge-outline-danger" href="/Myadmin/userViewmore/{{$data->id}}">View More</a> </td>
+                            <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/UnblockUser/{{$data->id}}" onclick="return confirm('Are you sure !')">Un Block</a> </td>
+                          </tr>
+                          @endforeach
                            
 
 
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                              </tr>
-
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                              </tr>
-
-                               <tr>
-                              <td>1</td>
-                              <td>
-                                <img src="assets/images/faces/face1.jpg" alt="image" />
-                                <span class="pl-2">Henry </span>
-                              </td>
-                              <td> Klein </td>
-                              <td> shaikhhenry1131@gmail.com </td>
-                              <td> 6354621866 </td>
-                              <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                            </tr>
+                            
                              
                           </tbody>
                         </table> 
-                       </div> --}}
+                       </div>
                     </div>
                   </div>
                 </div>

@@ -124,6 +124,5 @@ class AdminManageAgencyController extends Controller
         else{
             return redirect("/Myadmin/login");
         }
-       
     }
 }

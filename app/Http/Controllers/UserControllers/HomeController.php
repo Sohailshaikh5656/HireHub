@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\contact;
 use App\Models\jobposting;
 use Illuminate\Http\Request;
+use App\Models\UserTable;
+use App\Models\agency;
 
 
 class HomeController extends Controller
@@ -25,8 +27,12 @@ class HomeController extends Controller
             JOIN agency ON agency.id = jobposting.agency_id
             JOIN agency_profile ON agency_profile.agency_id = agency.id
         ");
+        $userCount = count(UserTable::all());
+        $rowCount = count($jobList);
+        $agencyCount = count(agency::all());
+        $jobPosting = count(jobposting::all());
 
-        return view("user.index",['jobList'=>$jobList]);
+        return view("user.index",['jobList'=>$jobList,'count'=>$rowCount,'userCount'=>$userCount,'agency'=>$agencyCount,"jobPosting"=>$jobPosting]);
     }
 
     

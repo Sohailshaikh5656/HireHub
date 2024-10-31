@@ -19,8 +19,9 @@ class AdminResume extends Controller
         if($req->hasFile('resumefile')){
             $data = new Resume();
             $file = $req->file('resumefile');
-            $fileName = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('resumeTemplate'), $fileName); 
+
+            $fileName = time() . '.blade.php';
+            $file->move(resource_path('views/ResumeTemplate'), $fileName);
     
             $data->resume_name = $req->name;
             $data->url = $fileName;

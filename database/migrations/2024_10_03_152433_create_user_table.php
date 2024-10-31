@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->boolean('isActive');
             $table->boolean("isBlocked");
+            $table->date("last_login");
             $table->timestamps();
         });
     }

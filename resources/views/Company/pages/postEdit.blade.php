@@ -113,23 +113,23 @@
                     @method('PUT')
                     <div class="row mb-3">
                       <div class="col-6">
-                          <select class="form-control" id="jobCategory" name="job_category">
-                              <option value="0">--- Select Job Category ---</option>
-                              @foreach ($job as $job)
-                              <option value={{ $job->id }} {{$job->id == $data->jobcategory_id ? 'selected':''}}>{{ $job->category_name }}</option>
-                              @endforeach
-                          </select>
-                      </div>
-                  
-                      <div class="col-6 ">
-                          <select class="form-control" id="jobSubCategory" name="job_sub_category">
-                              <option value="0">--- Select Job Posting ---</option>
-                              @foreach ($subJob as $subJob)
-                              <option value="{{ $subJob->job_sub_category }}"{{$subJob->job_sub_category == $data->job_post_name ? 'selected':''}}>{{ $subJob->job_sub_category }}</option>
-                              @endforeach
-                          </select>
-                      </div>
-                  </div>
+                        <select class="form-control" id="jobCategory_Selected" name="job_category" required>
+                            <option value="">--- Select Job Category ---</option>
+                            @foreach ($job as $jobItem)
+                                <option value="{{ $jobItem->id }}" {{ $data->jobcategory_id == $jobItem->id ? 'selected' : '' }}>{{ $jobItem->category_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="col-6">
+                        <select class="form-control" id="jobSubCategory" name="job_sub_category" required>
+                            <option value="">--- Select Sub Job Category ---</option>
+                            @foreach ($subJob as $subJobItem)
+                                <option value="{{ $subJobItem->id }}" {{ $data->job_post_name == $subJobItem->job_sub_category ? 'selected' : '' }}>{{ $subJobItem->job_sub_category }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    </div>
                    
                   <div class="row mb-3">
                     <div class="col-6">
@@ -139,6 +139,10 @@
 
                       <div class="col-6">
                         <input type="text" class="form-control" name="max_sal" placeholder="Maximum Salary in Lakh/Per Anumm" aria-label="Name" aria-describedby="email-addon" value="{{ intval($data->max_salary) == $data->max_salary ? intval($data->max_salary) : rtrim(rtrim(number_format($data->max_salary, 2), '0'), '.') }}" required>
+                      </div>
+                      <div class="col-6 ">
+                        <label class="form-label mt-5">Application Deadline</label>
+                        <input type="date" value="{{$data->Deadline}}" class="form-control" name="DeadLine" aria-label="Name" aria-describedby="email-addon" required>
                       </div>
 
                   </div>
@@ -160,30 +164,30 @@
                       <div class="mb-3">
                         <textarea class="form-control" name="description"  placeholder="Mentions some Job description and benifit seprated by (,)comma">{{$data->description}}</textarea>
                       </div>
+                      <div class="mb-3">
+                        <textarea class="form-control" name="benefit"  placeholder="Mentions some Job description and benifit seprated by (,)comma">{{$data->benefit}}</textarea>
+                      </div>
                       <p>Job Location</p>
                       <div class="row mb-3">
 
                         <div class="col-6">
-                       
-                            <select class="form-control" name="state_id">
-                                <option value=0>--Select State --</option>
-                                @foreach ($state as $state)
-                                <option value={{$state->id}} {{$state->id == $data->state_id?'selected':''}}>{{$state->state_name}}</option>
+                          <select class="form-control" name="state_id" id="state-select" required>
+                              <option value="">--Select State --</option>
+                              @foreach ($state as $stateItem)
+                                  <option value="{{ $stateItem->id }}" {{ $data->state_id == $stateItem->id ? 'selected' : '' }}>{{ $stateItem->state_name }}</option>
                               @endforeach
-                            </select>
-                        </div>
-                        <div class="col-6">
-                            <select class="form-control" name="city_id">
-                              <option value=0>--Select City--</option>
-                              @foreach ($city as $city)
-                                <option value={{$city->id}} {{$city->id==$data->city_id?'selected':''}}>{{$city->city_name}}</option>
-                              @endforeach
-                               
-                                
-                            </select>
-                        </div>
-
+                          </select>
                       </div>
+                      <div class="col-6">
+                          <select class="form-control" name="city_id" id="city-select" required>
+                              <option value="">--Select City--</option>
+                              @foreach ($city as $city)
+                                  <option value="{{ $city->id }}" {{ $data->city_id == $city->id ? 'selected' : '' }}>{{ $city->city_name }}</option>
+                              @endforeach
+                          </select>
+                      </div>
+                    </div>
+                  
                     
                     
                     <div class="form-check form-check-info text-left">
@@ -212,67 +216,57 @@
   <script src="{{asset ('company_mat/assets/js/plugins/chartjs.min.js')}}"></script>
 
 
-  <script>
-  
-    document.getElementById('jobCategory').addEventListener('change', function() {
-        var jobCategoryId = this.value;
-
-        if (jobCategoryId != 0) {
-            fetchSubCategories(jobCategoryId);
-        } else {
-            // Reset the sub-category dropdown if no category is selected
-            document.getElementById('jobSubCategory').innerHTML = '<option value="0">--- Select Job Posting ---</option>';
-        }
-    });
-
-    function fetchSubCategories(jobCategoryId) {
-        // Perform AJAX request to fetch subcategories based on selected category
-        fetch(`/get-subcategories/${jobCategoryId}`)
-        .then(response => response.json())
-        .then(data => {
-            var subCategoryDropdown = document.getElementById('jobSubCategory');
-            subCategoryDropdown.innerHTML = '<option value="0">--- Select Job Posting ---</option>';
-
-            data.forEach(subJob => {
-                subCategoryDropdown.innerHTML += `<option value="${subJob.id}">${subJob.job_sub_category}</option>`;
-            });
-        })
-        .catch(error => console.error('Error fetching subcategories:', error));
-    }
-</script>
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
 
-<script>
-  $( function() {
-    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( "#tags" ).autocomplete({
-      source: availableTags
+  <script>
+    document.getElementById('jobCategory_Selected').addEventListener('change', function() {
+        var jobId = this.value;
+  
+        // Clear the city dropdown
+        var citySelect = document.getElementById('jobSubCategory');
+        citySelect.innerHTML = '<option value="">--Select City--</option>'; // Reset city dropdown
+  
+        if (jobId) {
+            // Fetch cities for the selected state
+            fetch(`/get-sub_job/${jobId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.subJob.forEach(job => {
+                        var option = document.createElement('option');
+                        option.value = job.job_sub_category;
+                        option.textContent = job.job_sub_category;
+                        citySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching cities:', error));
+        }
     });
-  } );
+  </script>
+  
+  <script>
+    document.getElementById('state-select').addEventListener('change', function() {
+        var stateId = this.value;
+  
+        // Clear the city dropdown
+        var citySelect = document.getElementById('city-select');
+        citySelect.innerHTML = '<option value="">--Select City--</option>'; // Reset city dropdown
+  
+        if (stateId) {
+            // Fetch cities for the selected state
+            fetch(`/get-cities/${stateId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.cities.forEach(city => {
+                        var option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.city_name;
+                        citySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching cities:', error));
+        }
+    });
   </script>
   
   <!-- Github buttons -->

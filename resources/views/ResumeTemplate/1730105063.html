@@ -9,8 +9,13 @@
 	<meta name="description" content="" />
 
 	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset-fonts-grids/reset-fonts-grids.css" media="all" /> 
-	<link rel="stylesheet" type="text/css" href="resume.css" media="all" />
+	<!-- <link rel="stylesheet" type="text/css" href="resume.css" media="all" /> -->
 	<style>
+		 body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+       
 		/*
 ---------------------------------------------------------------------------------
 	STRIPPED DOWN RESUME TEMPLATE
@@ -87,12 +92,37 @@ a#pdf:hover { background: #222; }
 
 
 	</style>
+	 <script>
+        function downloadPDF() {
+            const content = document.getElementById('template-content').outerHTML;
+            fetch('/download-pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ content })
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'resume.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+            });
+        }
+    </script>
 
 </head>
 <body>
 
 <div id="doc2" class="yui-t7">
-	<div id="inner">
+
+	<div id="template-content" class="template" contenteditable="true">
+    <div id="inner">
 	
 		<div id="hd">
 			<div class="yui-gc">
@@ -103,7 +133,7 @@ a#pdf:hover { background: #222; }
 
 				<div class="yui-u">
 					<div class="contact-info">
-						<h3><a id="pdf" href="#">Download PDF</a></h3>
+						
 						<h3><a href="mailto:name@yourdomain.com">name@yourdomain.com</a></h3>
 						<h3>(313) - 867-5309</h3>
 					</div><!--// .contact-info -->
@@ -234,12 +264,14 @@ a#pdf:hover { background: #222; }
 			<p>Jonathan Doe &mdash; <a href="mailto:name@yourdomain.com">name@yourdomain.com</a> &mdash; (313) - 867-5309</p>
 		</div><!--// footer -->
 
-	</div><!-- // inner -->
+	</div>
+</div>
+	<!-- // inner -->
 
 
 </div><!--// doc -->
 
-
+	<button onclick="downloadPDF()">Download as PDF</button>
 </body>
 </html>
 

@@ -328,21 +328,20 @@
                     
                             <div class="form-step1">
                                 <div class="input-group1">
-                                    <label for="state1">State</label>
-                                    <select name="state" class="form-control">
-                                        <option value=0>--Select option--</option>
+                                    <label>State</label>
+                                    <select name="state" id="state-select" class="form-control">
+                                        <option value="">--Select State--</option>
                                         @foreach ($state as $state)
-                                            <option value={{$state->id}}>{{$state->state_name}}</option>
+                                            <option value="{{ $state->id }}">{{ $state->state_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                
+                                <!-- City Dropdown -->
                                 <div class="input-group1">
                                     <label>City</label>
-                                    <select name="city" class="form-control">
-                                        <option value=0>--Select option--</option>
-                                        @foreach ($city as $city)
-                                            <option value={{$city->id}}>{{$city->city_name}}</option>
-                                        @endforeach
+                                    <select name="city" id="city-select" class="form-control">
+                                        <option value="">--Select City--</option>
                                     </select>
                                 </div>
                                 <div class="btns-group1">
@@ -408,6 +407,33 @@
 });
 
 
+</script>
+
+
+
+<script>
+    document.getElementById('state-select').addEventListener('change', function() {
+        var stateId = this.value;
+
+        // Clear the city dropdown
+        var citySelect = document.getElementById('city-select');
+        citySelect.innerHTML = '<option value="">--Select City--</option>'; // Reset city dropdown
+
+        if (stateId) {
+            // Fetch cities for the selected state
+            fetch(`/get-cities/${stateId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.cities.forEach(city => {
+                        var option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.city_name;
+                        citySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching cities:', error));
+        }
+    });
 </script>
 </body>
 </html>

@@ -10,6 +10,8 @@ use App\Http\Controllers\AdminControllers\AdminAddJobController;
 use App\Http\Controllers\AdminControllers\AdminSubJobController;
 use App\Http\Controllers\AdminControllers\AdminLogoutController;
 use App\Http\Controllers\AdminControllers\AdminResume;
+use App\Http\Controllers\AdminControllers\AdmininquiryControllers;
+use App\Http\Controllers\AdminControllers\AdminAllReportControllers;
 //User Controllers
 use App\Http\Controllers\UserControllers\UserControllers;
 use App\Http\Controllers\UserControllers\ContactControllers;
@@ -18,15 +20,21 @@ use App\Http\Controllers\UserControllers\UserProfileController;
 use App\Http\Controllers\UserControllers\HomeController;
 use App\Http\Controllers\UserControllers\JobController;
 
+use App\Http\Controllers\UserControllers\UserResumeControlller;
+use App\Http\Controllers\FeedbackController;
 
 
 //Company controllers
 
 use App\Http\Controllers\CompanyControllers\CompanyDashboardController;
 use App\Http\Controllers\CompanyControllers\CompanyManageJobPosting;
+use App\Http\Controllers\CompanyControllers\CompanyProfileControllers;
 
 //PDF Controller
 use App\Http\Controllers\PDFController;
+
+//AJAX Controller
+use App\Http\Controllers\AjaxImpControllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +70,10 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('Myadmin/adminDashboard', [Dash::class,'dashboard']);
     Route::get('Myadmin/allUser', [AdminManageUserController::class,'allUser']);
     Route::get('Myadmin/userBlock',[AdminManageUserController::class,'userBlock']);
+    Route::get("Myadmin/blockUser/{id}",[AdminManageUserController::class,"userBlocking"]);
+    Route::get("Myadmin/UnblockUser/{id}",[AdminManageUserController::class,"userUnBlocking"]);
+    Route::get("Myadmin/userViewmore/{id}",[AdminManageUserController::class,"userViewmore"]);
+
     Route::get('Myadmin/userReport', [AdminManageUserController::class,'userReport']);
     Route::get('Myadmin/accept_reject_Company', [AdminManageAgencyController::class,'accept_reject']);
     Route::get("Myadmin/agencyAccept/{id}",[AdminManageAgencyController::class,'agencyAccept']);
@@ -70,8 +82,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("Myadmin/agencyUnBlock/{id}",[AdminManageAgencyController::class,'agencyUnBlock']);
     Route::get("Myadmin/allBlockedCompany",[AdminManageAgencyController::class,'allBlockedCompany']);
     Route::get("Myadmin/companyViewmore/{id}",[AdminManageAgencyController::class,'companyViewmore']);
-
-
 
 
     Route::get('Myadmin/manageJobListing',  [AdminManageAgencyController::class,'manageJobListing']);
@@ -94,11 +104,8 @@ Route::group(['middleware' => ['web']], function () {
     
     
     Route::get("Myadmin/logout",[AdminLogoutController::class,'logout']);
-    
-    
-    Route::view('Myadmin/feedback', 'Myadmin.feedback');
-    Route::view('Myadmin/inquiry', 'Myadmin.inquiry');
-    Route::view('Myadmin/reportAndAna', 'Myadmin.reportAndAna');
+    Route::get('Myadmin/inquiry', [AdmininquiryControllers::class,"allInquiry"]);
+    Route::get('Myadmin/reportAndAna',[AdminAllReportControllers::class,"maiReportPage"]);
     Route::get('Myadmin/resumeTemplate',[AdminResume::class,"resumeTemplate"]);
     Route::post("Myadmin/addResume",[AdminResume::class,"addResume"])->name("addResume");
 
@@ -109,8 +116,32 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('Myadmin/login',[AdminDaoController::class,'admin_auth'])->name('login');
     Route::view('Myadmin/addAdmin', 'Myadmin.addAdmin');
     Route::post('Myadmin/addAdmin',[AdminDaoController::class,'addAdmin'])->name('addAdmin');
+
+
+    Route::get("Myadmin/userReportsView",[AdminAllReportControllers::class,"userReportsView"]);
+    Route::get("Myadmin/activeInactiveUser",[AdminAllReportControllers::class,"activeInactiveUser"]);
+    Route::get("Myadmin/PDF_activeInactiveUser",[AdminAllReportControllers::class,"PDF_activeInactiveUser"]);
+
+    Route::get("Myadmin/newUserRegistration",[AdminAllReportControllers::class,'newUserRegistration']);
+    Route::get("Myadmin/PDF_newUserRegistration",[AdminAllReportControllers::class,"PDF_newUserRegistration"]);
+
+
+    Route::get("Myadmin/jobListingView",[AdminAllReportControllers::class,'jobListingView']);
+    Route::get("Myadmin/newJobListing",[AdminAllReportControllers::class,'newJobListing']);
+    Route::get("Myadmin/PDF_newJobListing",[AdminAllReportControllers::class,"PDF_newJobListing"]);
+
+    Route::get("Myadmin/topJobListing",[AdminAllReportControllers::class,"topJobListing"]);
+    Route::get("Myadmin/PDF_topJobListing",[AdminAllReportControllers::class,"PDF_topJobListing"]);
     
-    
+    Route::get("Myadmin/expiresJob",[AdminAllReportControllers::class,'expiresJob']);
+    Route::get("Myadmin/PDF_expiresJob",[AdminAllReportControllers::class,'PDF_expiresJob']);
+
+    Route::get("Myadmin/CompanyReportsView",[AdminAllReportControllers::class,"CompanyReportsView"]);
+    Route::get("Myadmin/newlyRegisterCompanies",[AdminAllReportControllers::class,"newlyRegisterCompanies"]);
+    Route::get("Myadmin/activeInactiveAgency",[AdminAllReportControllers::class,"activeInactiveAgency"]);
+    Route::get("Myadmin/PDF_activeInactiveAgency",[AdminAllReportControllers::class,"PDF_activeInactiveAgency"]);
+    Route::get("Myadmin/PDF_newlyRegisterCompanies",[AdminAllReportControllers::class,"PDF_newlyRegisterCompanies"]);
+    Route::get("Myadmin/loginAttempt",[AdminAllReportControllers::class,"loginAttempt"]);
     //Comapany Routes
     
     Route::get("Company/Dashboard",[CompanyDashboardController::class,'getDashboard']);
@@ -128,6 +159,15 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('Company/viewAllApplication/{param}', [CompanyManageJobPosting::class,'viewAllApplication']);
     Route::get('Company/candidateViewmore/{id}',[CompanyManageJobPosting::class,'candidateViewmore']);
     Route::post('Company/search', [CompanyManageJobPosting::class,'search']);
+    Route::get("Company/profile",[CompanyProfileControllers::class,'showProfile']);
+    Route::get("Company/editProfile",[CompanyProfileControllers::class,'editProfile']);
+    Route::put("Company/updateProfile",[CompanyProfileControllers::class,'updateProfile'])->name('updateProfile');
+    
+    Route::get("Company/certificatePage",[CompanyProfileControllers::class,'certificatePage']);
+    Route::post("Company/addCertificate",[CompanyProfileControllers::class,'addCertificate']);
+    Route::get("Company/editCertificate/{id}",[CompanyProfileControllers::class,'editCertificate']);
+    Route::put("Company/updateCertificate/{id}",[CompanyProfileControllers::class,'updateCertificate'])->name("updateCertificate");
+    
 
     Route::get('Company/shortListApplication/{id}', [CompanyManageJobPosting::class,'shortListApplication']);
     Route::get('Company/RejectApplication/{id}', [CompanyManageJobPosting::class,'RejectApplication']);
@@ -184,6 +224,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("user/editCertificate/{id}",[UserProfileController::class,'editCertificate']);
     Route::put("user/updateCertificate/{id}",[UserProfileController::class,'updateCertificate'])->name("updateCertificate");
 
+    Route::get("user/feedback",[FeedbackController::class,"feedback"]);
+    
+    Route::post("user/feedbackStore",[FeedbackController::class,"feedbackStore"])->name("feedbackStore");
+    Route::get("Myadmin/feedback",[FeedbackController::class,"showAllFeedback"]);
+    Route::get("Myadmin/deleteFeedback/{id}",[feedbackController::class,"deleteFeedback"]);
+    //Resume Handling
+    Route::get("user/allResume",[UserResumeControlller::class,'allResume']);
+    Route::get("user/resumeDesign/{id}",[UserResumeControlller::class,"selectedResume"]);
 
     Route::view("user/resumePage","user.resumeLandingPage");
     //Route for PDF View
@@ -191,8 +239,17 @@ Route::group(['middleware' => ['web']], function () {
     //Route to convert PDF
     Route::get("/pdf/convert",[PDFController::class,'pdfGeneration'])->name("pdf.convert");
 
+    Route::post("/user/pdf/download",[PDFController::class,'downloadPDF']);
+
     //JS Route
     // web.php (routes file)
     //Route::get('/get-subcategories/{job_category_id}', [CompanyManageJobPosting::class, 'getSubCategories']);
+
+
+    //Ajax Contrillers
+    // web.php
+    Route::get('/get-cities/{stateId}', [AjaxImpControllers::class, 'getCities']);
+    Route::get('/get-sub_job/{jobId}', [AjaxImpControllers::class, 'getSubJob']);
+
 });
 require __DIR__.'/auth.php';

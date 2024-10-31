@@ -41,6 +41,14 @@
          <div class="content-wrapper">
             <div class="row ">
                 <div class="col-12 grid-margin">
+                  @if(session("blocked"))
+                    <div class="alert alert-primary" role="alert">
+                      {{session('blocked')}}
+                      @php
+                        session(["blocked"=>false]);
+                      @endphp
+                    </div>
+                  @endif
                   <div class="card">
                     <div class="card-body">
                       <h4 class="card-title">Block User</h4>
@@ -58,60 +66,26 @@
                             </tr>
                           </thead>
                           <tbody>
+                            @foreach ($data as $data)
                             <tr>
-                              <td>1</td>
+                              <td>{{$data->id}}</td>
                               <td>
-                                <img src="assets/images/faces/face1.jpg" alt="image" />
-                                <span class="pl-2">Henry </span>
+                                <img src="{{asset ('images/userData/'.$data->ImageUrl)}}" alt="image" />
+                                <span class="pl-2">{{$data->first_name}} </span>
                               </td>
-                              <td> Klein </td>
-                              <td> shaikhhenry1131@gmail.com </td>
-                              <td> 6354621866 </td>
-                              <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
+                              <td> {{$data->last_name}} </td>
+                              <td> {{$data->email}} </td>
+                              <td> {{$data->contact}} </td>
+                              <td> <a class="btn btn-warning badge badge-outline-danger" href="/Myadmin/userViewmore/{{$data->id}}">View More</a> </td>
+                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/blockUser/{{$data->id}}" onclick="return confirm('Are You Sure !')">Block</a> </td>
                             </tr>
+                                
+                            @endforeach
+                           
                            
 
 
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                              </tr>
-
-                              <tr>
-                                <td>1</td>
-                                <td>
-                                  <img src="assets/images/faces/face1.jpg" alt="image" />
-                                  <span class="pl-2">Henry </span>
-                                </td>
-                                <td> Klein </td>
-                                <td> shaikhhenry1131@gmail.com </td>
-                                <td> 6354621866 </td>
-                                <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                              </tr>
-
-                               <tr>
-                              <td>1</td>
-                              <td>
-                                <img src="assets/images/faces/face1.jpg" alt="image" />
-                                <span class="pl-2">Henry </span>
-                              </td>
-                              <td> Klein </td>
-                              <td> shaikhhenry1131@gmail.com </td>
-                              <td> 6354621866 </td>
-                              <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Block</a> </td>
-                            </tr>
-                             
+                            
                           </tbody>
                         </table>
                       </div>

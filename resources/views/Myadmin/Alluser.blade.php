@@ -63,13 +63,13 @@
                             <tr>
                               <td>{{$data->id}}</td>
                               <td>
-                                <img src="assets/images/faces/face1.jpg" alt="image" />
+                                <img src="{{asset ('images/userData/'.$data->ImageUrl)}}" alt="image" />
                                 <span class="pl-2">{{$data->first_name}} </span>
                               </td>
                               <td> {{$data->last_name}} </td>
                               <td> {{$data->email}} </td>
                               <td> {{$data->contact}} </td>
-                              <td> <a class="btn btn-warning badge badge-outline-danger" href="#">View More</a> </td>
+                              <td> <a class="btn btn-warning badge badge-outline-danger" href="/Myadmin/userViewmore/{{$data->id}}">View More</a> </td>
                               <td> <a class="btn btn-primary badge badge-outline-success" href="#">Edit</a> </td>
                               <td><a class="btn btn-danger badge badge-outline-success" href="">Delete</a></td>
                             </tr>

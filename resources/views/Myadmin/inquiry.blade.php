@@ -58,36 +58,18 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td> Sohel </td>
-                              <td> Shaikh </td>
-                              <td> shaikh@gmail.com </td>
-                              <td> Error </td>
-                              <td> Error 404 </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                            </tr>
-                           
-                            <tr>
-                                <td>1</td>
-                                <td> Sohel </td>
-                                <td> Shaikh </td>
-                                <td> shaikh@gmail.com </td>
-                                <td> Error </td>
-                                <td> Error 404 </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                              </tr>
-
-                              <tr>
-                                <td>1</td>
-                                <td> Sohel </td>
-                                <td> Shaikh </td>
-                                <td> shaikh@gmail.com </td>
-                                <td> Error </td>
-                                <td> Error 404 </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                              </tr>
-
+                           @foreach ($data as $data)
+                           <tr>
+                            <td>{{$data->id}}</td>
+                            <td> {{$data->first_name}} </td>
+                            <td> {{$data->last_name}} </td>
+                            <td> {{$data->email}} </td>
+                            <td> {{$data->subject}} </td>
+                            <td> {{$data->message}} </td>
+                            <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/deleteInquiry" onclick="return confirm('Are you Sure ?')">Delete</a> </td>
+                          </tr>
+                         
+                           @endforeach
                              
                           </tbody>
                         </table>

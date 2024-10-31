@@ -56,33 +56,27 @@
                             </tr>
                           </thead>
                           <tbody>
+
+                            @foreach ($data as $data)
                             <tr>
-                              <td>1</td>
-                              <td>  &#11088;&#11088;&#11088; </td>
-                              <td> Related to IT computer Science </td>
-                              <td> 2 </td>
-                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
+                              <td>{{$data->id}}</td>
+                              
+                              <td>
+                                @for ($i=0;$i<$data->rating;$i++)
+                                  &#11088;
+                                @endfor
+                              </td>
+                              <td> {{$data->message}}</td>
+                              <td> {{$data->user_id}} </td>
+                              <td> <a class="btn btn-danger badge badge-outline-secondary" href="/Myadmin/deleteFeedback/{{$data->id}}" onclick="return confirm('Are You Sure !')">Delete</a> </td>
                             </tr>
                            
 
+                            @endforeach
+                           
 
-                            <tr>
-                                <td>1</td>
-                                <td>  &#11088;&#11088; </td>
-                                <td> Related to IT computer Science </td>
-                                <td> 2 </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                              </tr>
-
-                              <tr>
-                                <td>1</td>
-                                <td>  &#11088;&#11088;&#11088;&#11088; </td>
-                                <td> Related to IT computer Science </td>
-                                <td> 2 </td>
-                                <td> <a class="btn btn-danger badge badge-outline-secondary" href="#">Delete</a> </td>
-                              </tr>
-                             
-                          </tbody>
+                               
+                           </tbody>
                         </table>
                       </div>
                     </div>

@@ -47,7 +47,7 @@
           <div class="content-wrapper">
             
             <div class="row">
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="AdminDashboard">
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="/Myadmin/userReportsView">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
@@ -67,7 +67,7 @@
                   </div>
                 </div>
             </a></div>
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="AdminDashboard">
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="/Myadmin/jobListingView">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
@@ -87,7 +87,7 @@
                   </div>
                 </div>
             </a></div>
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="AdminDashboard">
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="/Myadmin/CompanyReportsView">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
@@ -107,7 +107,7 @@
                   </div>
                 </div>
             </a> </div>
-              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="AdminDashboard">
+              <div class="col-xl-3 col-sm-6 grid-margin stretch-card"><a href="/Myadmin/loginAttempt">
                 <div class="card">
                   <div class="card-body">
                     <div class="row">

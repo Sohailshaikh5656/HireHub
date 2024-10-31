@@ -8,6 +8,8 @@ use App\Models\city;
 use App\Models\state;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+use App\Models\login_atemp;
 
 class UserControllers extends Controller
 {
@@ -15,7 +17,7 @@ class UserControllers extends Controller
         return view('user.login');
     }
     public function register(){
-        $state = state::all();
+        $state = state::orderBy("state_name")->get();
         $city = city::all();
         return view('user.register',['state'=>$state,'city'=>$city]);
     }
@@ -56,6 +58,7 @@ class UserControllers extends Controller
             $user->password = bcrypt($validateData['password']);
             $user->isActive = true;
             $user->isBlocked = false;
+            $user->last_login = Carbon::today();
             $user->save();
     
             // Get the user ID for the profile
@@ -82,16 +85,42 @@ class UserControllers extends Controller
     public function userAuthChk(Request $request){
         $auth = $request->only('email','password');
         $user = UserTable::where('email',$auth['email'])->first();
+        $temp = login_atemp::all();
+        if($temp->isEmpty()){
+            $data = new login_atemp();
+            $data->success = 0;
+            $data->fail = 0;
+            $data->save();
+        }
+        $data = login_atemp::find(1);
+        
         if($user && Hash::check($auth['password'], $user->password)){
+            if(!$user->isActive){
+                $data->fail = $data->fail + 1;
+                $data->save();
+                return redirect("/user/login")->with('non_active',"Wait for Approval Account !");
+            }
+            if($user->isBlocked){
+                $data->fail = $data->fail + 1;
+                $data->save();
+                return redirect("/user/login")->with('non_active',"Your Account has been blocked for violeting T&C !");
+            }
             session(['user_login'=>true]);
             session(['user_id'=>$user->id]);
             //Admin sensetive info
             session(['user_email'=>$user->email]);
             session(['user_name'=>$user->first_name]);
+
+            $user->last_login = Carbon::today();
+            $user->save();
+            $data->success = $data->success + 1;
+            $data->save();
             return redirect('/user/Home');
         }
         else{
             session(['error'=>true]);
+            $data->fail = $data->fail + 1;
+            $data->save();
             return redirect('/user/login')->with('error', 'Email or Password Invalid');
         }
     }

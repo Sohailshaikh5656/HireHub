@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean("isActive");
             $table->boolean("isBlocked");
+            $table->date("last_login");
             $table->timestamps();
         });
     }

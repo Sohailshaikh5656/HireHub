@@ -30,8 +30,8 @@
             </li>
             <li><a href="/user/contact" class=" nav-link {{ Request::is('user/contact') ? 'active' : '' }}">Contact</a></li>
             @if (session('user_login'))
-            <li><a href="/user/userProfile" class="nav-link ">Profile</a></li>
-            <li><a href="/user/Home" class="nav-link ">Feedback</a></li>
+            <li><a href="/user/userProfile" class="nav-link {{ Request::is('user/userProfile') ? 'active' : '' }}">Profile</a></li>
+            <li><a href="/user/feedback" class="nav-link  {{ Request::is('user/feedback') ? 'active' : '' }}">Feedback</a></li>
             <li><a href="/user/Home" class="nav-link ">Resume</a></li>
             
           </ul>

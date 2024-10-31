@@ -112,8 +112,8 @@
                     @csrf
                     <div class="row mb-3">
                       <div class="col-6">
-                          <select class="form-control" id="jobCategory" name="job_category">
-                              <option value="0">--- Select Job Category ---</option>
+                          <select class="form-control" id="jobCategory_Selected" name="job_category">
+                              <option value="">--- Select Job Category ---</option>
                               @foreach ($job as $job)
                               <option value={{ $job->id }}>{{ $job->category_name }}</option>
                               @endforeach
@@ -122,10 +122,8 @@
                   
                       <div class="col-6 ">
                           <select class="form-control" id="jobSubCategory" name="job_sub_category">
-                              <option value="0">--- Select Job Posting ---</option>
-                              @foreach ($subJob as $subJob)
-                              <option value="{{ $subJob->job_sub_category }}">{{ $subJob->job_sub_category }}</option>
-                              @endforeach
+                              
+                              <option value="">--Select Job Sub Categoty---</option>
                           </select>
                       </div>
                   </div>
@@ -196,21 +194,17 @@
 
                         <div class="col-6">
                        
-                            <select class="form-control" name="state_id">
-                                <option value=0>--Select State --</option>
+                            <select class="form-control" name="state_id" id="state-select">
+                                <option value="">--Select State --</option>
                                 @foreach ($state as $state)
                                 <option value={{$state->id}}>{{$state->state_name}}</option>
                               @endforeach
                             </select>
                         </div>
                         <div class="col-6">
-                            <select class="form-control" name="city_id">
-                              <option value=0>--Select City--</option>
-                              @foreach ($city as $city)
-                                <option value={{$city->id}}>{{$city->city_name}}</option>
-                              @endforeach
-                               
-                                
+                            <select class="form-control" name="city_id" id="city-select">
+                              
+                                <option value="">--Select City--</option>
                             </select>
                         </div>
 
@@ -370,6 +364,57 @@
     });
   } );
   </script>
+
+<script>
+  document.getElementById('jobCategory_Selected').addEventListener('change', function() {
+      var jobId = this.value;
+
+      // Clear the city dropdown
+      var citySelect = document.getElementById('jobSubCategory');
+      citySelect.innerHTML = '<option value="">--Select City--</option>'; // Reset city dropdown
+
+      if (jobId) {
+          // Fetch cities for the selected state
+          fetch(`/get-sub_job/${jobId}`)
+              .then(response => response.json())
+              .then(data => {
+                  data.subJob.forEach(job => {
+                      var option = document.createElement('option');
+                      option.value = job.job_sub_category;
+                      option.textContent = job.job_sub_category;
+                      citySelect.appendChild(option);
+                  });
+              })
+              .catch(error => console.error('Error fetching cities:', error));
+      }
+  });
+</script>
+
+<script>
+  document.getElementById('state-select').addEventListener('change', function() {
+      var stateId = this.value;
+
+      // Clear the city dropdown
+      var citySelect = document.getElementById('city-select');
+      citySelect.innerHTML = '<option value="">--Select City--</option>'; // Reset city dropdown
+
+      if (stateId) {
+          // Fetch cities for the selected state
+          fetch(`/get-cities/${stateId}`)
+              .then(response => response.json())
+              .then(data => {
+                  data.cities.forEach(city => {
+                      var option = document.createElement('option');
+                      option.value = city.id;
+                      option.textContent = city.city_name;
+                      citySelect.appendChild(option);
+                  });
+              })
+              .catch(error => console.error('Error fetching cities:', error));
+      }
+  });
+</script>
+
   
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
