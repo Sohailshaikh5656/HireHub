@@ -25,26 +25,36 @@ class PDFController extends Controller
 
 
     public function downloadPDF(Request $request)
-    {
-        $content = $request->input('content');
-        $css = $request->input('css');
-    
-        // Initialize Dompdf
-        $dompdf = new Dompdf();
-        
-        // Load HTML content with CSS
-        $dompdf->loadHtml("<style>{$css}</style>{$content}");
-        
-        // Set paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
-    
-        // Render the PDF
-        $dompdf->render();
-    
-        // Return the generated PDF as a response
-        return response($dompdf->output(), 200)
-                    ->header('Content-Type', 'application/pdf')
-                    ->header('Content-Disposition', 'attachment; filename="resume.pdf"');
+        {
+            $content = $request->input('content');
+            $css = $request->input('css');
+
+            // Set Dompdf options
+            $options = new Options();
+            $options->set('isHtml5ParserEnabled', true);
+            $options->set('isRemoteEnabled', true);
+
+            $dompdf = new Dompdf($options);
+
+            // Load HTML content with CSS
+            $dompdf->loadHtml("<style>{$css}</style>{$content}");
+
+            // Set paper size and orientation
+            $dompdf->setPaper('A4', 'portrait');
+
+            // Render the PDF
+            $dompdf->render();
+
+            // Return the generated PDF as a response
+            return response($dompdf->output(), 200)
+                        ->header('Content-Type', 'application/pdf')
+                        ->header('Content-Disposition', 'attachment; filename="resume.pdf"');
+        }
+
+    public function dummy(){
+       
+        $pdf_view = PDF::loadView('user.dummyResumeChecker');
+        return $pdf_view->download("Resume.pdf");
     }
     
 }

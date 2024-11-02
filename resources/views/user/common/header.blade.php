@@ -16,23 +16,24 @@
             </li> --}}
           
             <li class="has-children">
-              <a href="services.html">Pages</a>
+              <a href="#">Pages</a>
               <ul class="dropdown">
-                <li><a href="services.html">Services</a></li>
-                <li><a href="service-single.html">Service Single</a></li>
+                <li><a href="/user/aboutCompanies">All Company</a></li>
+                <li><a href="/Myadmin/login">Admin Login</a></li>
+                {{-- <li><a href="service-single.html">Service Single</a></li>
                 <li><a href="blog-single.html">Blog Single</a></li>
                 <li><a href="portfolio.html">Portfolio</a></li>
                 <li><a href="portfolio-single.html">Portfolio Single</a></li>
                 <li><a href="testimonials.html">Testimonials</a></li>
                 <li><a href="faq.html">Frequently Ask Questions</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="gallery.html">Gallery</a></li> --}}
               </ul>
             </li>
             <li><a href="/user/contact" class=" nav-link {{ Request::is('user/contact') ? 'active' : '' }}">Contact</a></li>
             @if (session('user_login'))
             <li><a href="/user/userProfile" class="nav-link {{ Request::is('user/userProfile') ? 'active' : '' }}">Profile</a></li>
             <li><a href="/user/feedback" class="nav-link  {{ Request::is('user/feedback') ? 'active' : '' }}">Feedback</a></li>
-            <li><a href="/user/Home" class="nav-link ">Resume</a></li>
+            <li><a href="/user/allResume" class="nav-link ">Resume</a></li>
             
           </ul>
         </nav>

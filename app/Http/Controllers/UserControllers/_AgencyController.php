@@ -7,9 +7,11 @@ use App\Models\state;
 use App\Models\city;
 use App\Models\agency;
 use App\Models\agency_profile;
+use App\Models\agency_certificate;
 use App\Models\login_atemp;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class _AgencyController extends Controller
 {
@@ -131,5 +133,61 @@ class _AgencyController extends Controller
     public function logout(){
         session()->flush();
         return redirect('/user/login');
+    }
+
+    public function agencyViewmore(){
+        $data = DB::select("SELECT agency.id,
+            agency_profile.image_url, agency.agency_name from agency 
+            JOIN agency_profile ON agency.id = agency_profile.agency_id
+            where agency.isBlocked = 0 AND agency.isActive = 1;
+        ");
+        $agencies = agency::all();
+         $cities = city::all();
+         $states = state::all();
+        return view("user.aboutAllCompanies",['data'=>$data,'cities'=>$cities,'agencies'=>$agencies]);
+    }
+
+    public function companySearch($id){
+        $agency = agency::find($id);
+        $agencyProfile = agency_profile::where("agency_id",$id)->first();
+        $state = state::find($agencyProfile->state_id);
+        $city = city::find($agencyProfile->city_id);
+        $cities = city::all();
+        $states = state::all();
+        $certi = agency_certificate::where("agency_id",$id)->get();
+
+        $jobPosted = DB::select("SELECT
+        jobposting.id,
+        jobposting.job_post_name AS Post,
+        agency.agency_name,
+        city.city_name AS city,
+        state.state_name AS state,
+        agency_profile.image_url,
+        jobposting.min_salary AS minSalary,
+        jobposting.max_salary AS maxSalary
+      FROM
+        jobposting
+        JOIN agency ON jobposting.agency_id = agency.id
+        JOIN city ON city.id = jobposting.city_id
+        JOIN state ON state.id = jobposting.state_id
+        JOIN agency_profile ON agency_profile.agency_id = agency.id
+      WHERE
+        agency.id = ?; 
+        ",[$id]);
+        return view("/user/singleCompanyView",['agency'=>$agency,'agencyProfile'=>$agencyProfile,"state"=>$state,"city"=>$city,"certi"=>$certi,'states'=>$states,'cities'=>$cities,'jobs'=>$jobPosted]);
+    }
+
+    public function SearchAgencies(Request $req){
+        $AgencyName = $req->agencyName;
+        $AgencyName = strtolower($AgencyName);
+            $data = DB::select("SELECT agency.id,
+            agency_profile.image_url, agency.agency_name from agency 
+            JOIN agency_profile ON agency.id = agency_profile.agency_id
+            where agency.isBlocked = 0 AND agency.isActive = 1 AND LOWER(agency_name)=?;
+        ",[$AgencyName]);
+        $cities = city::all();
+        $agencies = agency::all();
+     return view("user.searchAgencies",['data'=>$data,'cities'=>$cities,'agencies'=>$agencies]);
+
     }
 }

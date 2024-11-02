@@ -57,7 +57,7 @@
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate est, consequuntur perferendis.</p>
             </div>
             <form method="post" class="search-jobs-form" action="/user/jobSearch">
-              @csrf
+                @csrf
               <div class="row mb-5">
                 <div class="col-12 col-sm-4 col-md-4 col-lg-4 mb-4 mb-lg-0">
                   <input type="text" name="searchText" class="form-control form-control-lg" placeholder="Job title, Company...">

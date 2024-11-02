@@ -41,7 +41,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">250000</h3>
+                          <h3 class="mb-0">{{$totalUser}}</h3>
                           <p class="text-success ml-2 mb-0 font-weight-medium">+0.05%</p>
                         </div>
                       </div>
@@ -61,7 +61,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">700</h3>
+                          <h3 class="mb-0">{{$agency}}</h3>
                           <p class="text-success ml-2 mb-0 font-weight-medium">+4</p>
                         </div>
                       </div>

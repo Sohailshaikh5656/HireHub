@@ -178,6 +178,7 @@ Route::group(['middleware' => ['web']], function () {
     //User Routes
     
     Route::get("user/Home",[HomeController::class,"Home"]);
+
     Route::get("user/login",[UserControllers::class,'loginPage']);
     Route::post("user/userAuthChk",[UserControllers::class,'userAuthChk'])->name('userAuthChk');
     
@@ -232,14 +233,22 @@ Route::group(['middleware' => ['web']], function () {
     //Resume Handling
     Route::get("user/allResume",[UserResumeControlller::class,'allResume']);
     Route::get("user/resumeDesign/{id}",[UserResumeControlller::class,"selectedResume"]);
+    Route::post("user/jobSearch",[HomeController::class,"jobSearch"])->name("jobSearch");
 
     Route::view("user/resumePage","user.resumeLandingPage");
+    Route::get("user/aboutCompanies",[_AgencyController::class,"agencyViewmore"]);
+    Route::get("user/companySearch/{id}",[_AgencyController::class,"companySearch"]);
+    Route::post("user/SearchAgencies",[_AgencyController::class,"SearchAgencies"])->name("SearchAgencies");
+
     //Route for PDF View
     Route::get("/pdf/view",[PDFController::class,'pdfView'])->name("pdf.view");
     //Route to convert PDF
     Route::get("/pdf/convert",[PDFController::class,'pdfGeneration'])->name("pdf.convert");
 
     Route::post("/user/pdf/download",[PDFController::class,'downloadPDF']);
+    
+    Route::get("/user/dummy",[PDFController::class,'dummy']);
+    
 
     //JS Route
     // web.php (routes file)

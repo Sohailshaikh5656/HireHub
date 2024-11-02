@@ -31,8 +31,8 @@ class CompanyProfileControllers extends Controller
             $agency = agency::findOrFail($agency_id);
             $agencyProfile = agency_profile::where('agency_id',$agency_id)->firstOrFail();
             $certi = agency_certificate::where('agency_id',$agency_id)->get();
-            $state = state::find($agencyProfile->state_id)->first();
-            $city = city::find($agencyProfile->city_id)->first();
+            $state = state::find($agencyProfile->state_id);
+            $city = city::find($agencyProfile->city_id);
             
             return view("Company.pages.showProfile",['agency'=>$agency,'agencyProfile'=>$agencyProfile,'state'=>$state,'city'=>$city,'certi'=>$certi]);
         }else{
