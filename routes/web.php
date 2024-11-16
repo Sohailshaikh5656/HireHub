@@ -48,7 +48,7 @@ use App\Http\Controllers\AjaxImpControllers;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('/user/Home');
 });
 
 Route::get('/dashboard', function () {
