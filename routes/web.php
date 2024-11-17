@@ -48,7 +48,7 @@ use App\Http\Controllers\AjaxImpControllers;
 */
 
 Route::get('/', function () {
-    return view('/user/Home');
+    return redirect('user/Home');
 });
 
 Route::get('/dashboard', function () {
@@ -246,6 +246,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("/pdf/convert",[PDFController::class,'pdfGeneration'])->name("pdf.convert");
 
     Route::post("/user/pdf/download",[PDFController::class,'downloadPDF']);
+    Route::get("/Company/pdf/download",[PDFController::class,'AgencyReportPDF']);
+    
     
     Route::get("/user/dummy",[PDFController::class,'dummy']);
     

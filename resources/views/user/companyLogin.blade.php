@@ -214,7 +214,7 @@
     @include('user.common.header')
 
     <!-- HOME -->
-    <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url({{ asset ('user_mat/images/hero_1.jpg')}});" id="home-section">
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
@@ -293,7 +293,7 @@
                                 </div>
 
                                 <div class="input-group1">
-                                  <a class="">Have an Account ? </a><a href="" class="forget">&nbsp;Register</a>
+                                  <a class="">Have an Account ? </a><a href="/user/companyRegister" class="forget">&nbsp;Register</a>
                               </div>
                             </div>
                     

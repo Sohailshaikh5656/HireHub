@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\UserTable;
 use App\Models\agency;
 use App\Models\city;
+use Carbon\Carbon;
 
 
 class HomeController extends Controller
@@ -27,7 +28,8 @@ class HomeController extends Controller
             JOIN city ON city.id = jobposting.city_id
             JOIN agency ON agency.id = jobposting.agency_id
             JOIN agency_profile ON agency_profile.agency_id = agency.id
-        ");
+            where jobposting.Deadline >= ?
+        ",[Carbon::now()]);
 
         $city = city::orderBy("city_name")->get();
         $userCount = count(UserTable::all());

@@ -48,7 +48,7 @@
 
 
     <!-- HOME -->
-    <section class="section-hero overlay inner-page bg-image" style="background-image: url('images/hero_1.jpg');" id="home-section">
+    <section class="section-hero overlay inner-page bg-image" style="background-image: url({{asset ('user_mat/images/hero_1.jpg') }});" id="home-section">
       <div class="container">
         <div class="row">
           <div class="col-md-7">
@@ -62,63 +62,22 @@
       </div>
     </section>
 
-    <section class="py-5 bg-image overlay-primary fixed overlay" id="next-section" style="background-image: url('images/hero_1.jpg');">
-      <div class="container">
-        <div class="row mb-5 justify-content-center">
-          <div class="col-md-7 text-center">
-            <h2 class="section-title mb-2 text-white">JobBoard Site Stats</h2>
-            <p class="lead text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Expedita unde officiis recusandae sequi excepturi corrupti.</p>
-          </div>
-        </div>
-        <div class="row pb-0 block__19738 section-counter">
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="1930">0</strong>
-            </div>
-            <span class="caption">Candidates</span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="54">0</strong>
-            </div>
-            <span class="caption">Jobs Posted</span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="120">0</strong>
-            </div>
-            <span class="caption">Jobs Filled</span>
-          </div>
-
-          <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0">
-            <div class="d-flex align-items-center justify-content-center mb-2">
-              <strong class="number" data-number="550">0</strong>
-            </div>
-            <span class="caption">Companies</span>
-          </div>
-
-            
-        </div>
-      </div>
-    </section>
+    
 
     
-    <section class="site-section pb-0">
+    <section class="site-section pb-2">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6 mb-5 mb-lg-0">
             <a data-fancybox data-ratio="2" href="https://vimeo.com/317571768" class="block__96788">
-              <span class="play-icon"><span class="icon-play"></span></span>
-              <img src="images/sq_img_6.jpg" alt="Image" class="img-fluid img-shadow">
+             
+              <img src="{{ asset('user_mat/images/web.jpg') }}" alt="Image" class="img-fluid img-shadow">
             </a>
           </div>
           <div class="col-lg-5 ml-auto">
             <h2 class="section-title mb-3">JobBoard For Freelancers, Web Developers</h2>
-            <p class="lead">Eveniet voluptatibus voluptates suscipit minima, cum voluptatum ut dolor, sed facere corporis qui, ea quisquam quis odit minus nulla vitae. Sit, voluptatem.</p>
-            <p>Ipsum harum assumenda in eum vel eveniet numquam, cumque vero vitae enim cupiditate deserunt eligendi officia modi consectetur. Expedita tempora quos nobis earum hic ex asperiores quisquam optio nostrum sit!</p>
+            <p class="lead">Powering 70% of global businesses, web development drives online engagement and customer interaction.</p>
+            <p>Web development is evolving with cutting-edge technologies driving innovation. React.js leads front-end development with its scalable, component-based approach, while Node.js simplifies full-stack development using JavaScript. Progressive Web Apps (PWAs) are gaining popularity for offline functionality and app-like experiences, with brands like Starbucks adopting them. Serverless architecture, offered by platforms like AWS Lambda, enables cost-efficient scalability, growing rapidly at 23% annually. Next.js enhances performance with server-side rendering and static site generation, while WebAssembly (Wasm) pushes browser limits for tasks like gaming and video editing. Additionally, AI-powered chatbots are transforming user engagement, cementing their role in the digital future.</p>
           </div>
         </div>
       </div>
@@ -129,14 +88,14 @@
         <div class="row align-items-center">
           <div class="col-lg-6 mb-5 mb-lg-0 order-md-2">
             <a data-fancybox data-ratio="2" href="https://vimeo.com/317571768" class="block__96788">
-              <span class="play-icon"><span class="icon-play"></span></span>
-              <img src="images/sq_img_8.jpg" alt="Image" class="img-fluid img-shadow">
+              
+              <img src="{{ asset('user_mat/images/jobBoard.jpg') }}" alt="Image" class="img-fluid img-shadow">
             </a>
           </div>
           <div class="col-lg-5 mr-auto order-md-1  mb-5 mb-lg-0">
             <h2 class="section-title mb-3">JobBoard For Workers</h2>
-            <p class="lead">Eveniet voluptatibus voluptates suscipit minima, cum voluptatum ut dolor, sed facere corporis qui, ea quisquam quis odit minus nulla vitae. Sit, voluptatem.</p>
-            <p>Ipsum harum assumenda in eum vel eveniet numquam, cumque vero vitae enim cupiditate deserunt eligendi officia modi consectetur. Expedita tempora quos nobis earum hic ex asperiores quisquam optio nostrum sit!</p>
+            <p class="lead">These platforms empower professionals by providing seamless access to job listings, enabling them to connect with employers and advance in a competitive career landscape.</p>
+            <p>Job boards and online platforms have become essential tools in modern recruitment, bridging the gap between job seekers and employers. Platforms like LinkedIn, Indeed, and Glassdoor provide access to millions of job listings across industries, catering to diverse career levels. They streamline the application process, offering features like resume uploads, personalized job recommendations, and application tracking. Many platforms also include networking features, allowing professionals to connect and build relationships within their fields. Advanced filters and AI-powered search capabilities make it easier for candidates to find roles matching their skills and aspirations. These platforms are revolutionizing how talent is discovered and matched to opportunities in a fast-paced, competitive job market.</p>
           </div>
         </div>
       </div>
@@ -147,47 +106,32 @@
       <div class="container">
         <div class="row mb-5">
           <div class="col-12 text-center" data-aos="fade">
-            <h2 class="section-title mb-3">Our Team</h2>
+            <h2 class="section-title mb-3">Our Goals</h2>
           </div>
         </div>
 
         <div class="row align-items-center block__69944">
 
           <div class="col-md-6">
-            <img src="images/person_6.jpg" alt="Image" class="img-fluid mb-4 rounded">
+            <img src="{{ asset('user_mat/images/jobSearching.jpg') }}" alt="Image" class="img-fluid mb-4 rounded">
           </div>
 
           <div class="col-md-6">
-            <h3>Elisabeth Smith</h3>
-            <p class="text-muted">Creative Director</p>
-            <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
-            <div class="social mt-4">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
+            <h3>Mission</h3>
+           
+            <p>At HireHub, our mission is to connect talented individuals with the right opportunities by providing a seamless, user-centric platform for job searching and recruitment. We aim to empower job seekers by offering tools for skill showcasing, resume building, and personalized job recommendations. Simultaneously, we strive to support employers in finding top talent efficiently, fostering meaningful professional connections. By leveraging technology and innovation, we seek to bridge the gap between aspirations and opportunities, creating a thriving ecosystem for career growth..</p>
+            
+            <h3>Vision</h3>
+           
+            <p>Our vision at HireHub is to become the leading global job-searching platform that transforms the hiring process into a seamless, accessible, and empowering experience. We aspire to redefine the future of work by leveraging AI and data-driven insights to match candidates and employers with precision. By fostering transparency, inclusivity, and innovation, we aim to build a platform where every individual, regardless of background, can find meaningful career opportunities and every organization can discover exceptional talent effortlessly.</p>
+            
           </div>
 
-          <div class="col-md-6 order-md-2 ml-md-auto">
-            <img src="images/person_5.jpg" alt="Image" class="img-fluid mb-4 rounded">
-          </div>
-
-          <div class="col-md-6">
-            <h3>Chintan Patel</h3>
-            <p class="text-muted">Creative Director</p>
-            <p>Soluta quasi cum delectus eum facilis recusandae nesciunt molestias accusantium libero dolores repellat id in dolorem laborum ad modi qui at quas dolorum voluptatem voluptatum repudiandae voluptatibus ut? Ex vel  ad explicabo iure ipsa possimus consectetur neque rem molestiae eligendi velit?.</p>
-            <div class="social mt-4">
-              <a href="#"><span class="icon-facebook"></span></a>
-              <a href="#"><span class="icon-twitter"></span></a>
-              <a href="#"><span class="icon-instagram"></span></a>
-              <a href="#"><span class="icon-linkedin"></span></a>
-            </div>
-          </div>
+          
       </div>
     </section>
 
-    include('user.common.footer')
+    @include('user.common.footer')
   
   </div>
 
