@@ -73,7 +73,7 @@
                     <div class="row">
                       <div class="col-9">
                         <div class="d-flex align-items-center align-self-start">
-                          <h3 class="mb-0">Actve and Inactive<br /></h3>
+                          <h3 class="mb-0">Top Jobs Postings<br /></h3>
                           <p class="text-success ml-2 mb-0 font-weight-medium"></p>
                         </div>
                       </div>
@@ -83,7 +83,7 @@
                         </div>
                       </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Active and Inactive Companies</h6>
+                    <h6 class="text-muted font-weight-normal">Most Nummber of Job Posting by Companies</h6>
                   </div>
                 </div>
             </a></div>

@@ -51,7 +51,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between">
-                                <h4 class="card-title">Recent Job Posting </h4>
+                                <h4 class="card-title">Top Job Trends Posting </h4>
                                 <a class="btn btn-primary" href="/Myadmin/PDF_topJobListing">Download PDF</a>
                             </div>
                         </div>

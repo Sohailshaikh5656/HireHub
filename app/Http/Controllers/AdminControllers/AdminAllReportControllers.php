@@ -51,50 +51,38 @@ class AdminAllReportControllers extends Controller
         }
     }
 
-    public function PDF_newUserRegistration() {
-        if (session("admin_login")) {
-            try {
-                $oneMonthAgo = Carbon::now()->subMonth();
-                $users = DB::select("
-                    SELECT user.id,
-                        user.first_name, user.last_name, user.email, 
-                        user_profile.contact, city.city_name, 
-                        user_profile.imageUrl as imgurl
-                    FROM user 
-                    JOIN user_profile ON user.id = user_profile.user_id
-                    JOIN city ON city.id = user_profile.city_id
-                    WHERE user.created_at >= ?
-                ", [$oneMonthAgo]);
-    
-                // Convert images to Base64
-                foreach ($users as $user) {
-                    $imagePath = public_path($user->imgurl); // Get the absolute path
-                    if (file_exists($imagePath)) {
-                        // Convert the image to Base64
-                        $user->imgurl = 'data:image/png;base64,' . base64_encode(file_get_contents($imagePath));
-                    } else {
-                        $user->imgurl = null; // Handle missing images
-                    }
-                }
-    
-                // Check if users are found
-                if (empty($users)) {
-                    return redirect()->back()->with('message', 'No new registrations found in the last month.');
-                }
-    
-                // Generate PDF
-                $pdf_view = PDF::loadView("Myadmin.Reports.PDF_newUserRegistration", ['users' => $users]);
-                return $pdf_view->download("NewRegistration.pdf");
-    
-            } catch (\Exception $e) {
-                // Log the error and redirect back with an error message
-                \Log::error("Error generating PDF: " . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to generate PDF. Please try again later.');
-            }
-        } else {
+    public function PDF_newUserRegistration()
+    {
+        // Check if admin is logged in
+        if (!session("admin_login")) {
             return redirect("/Myadmin/login");
         }
+
+        try {
+            // Fetch users registered within the last month
+            $oneMonthAgo = Carbon::now()->subMonth();
+            $users = DB::select("
+                SELECT user.id,
+                    user.first_name, user.last_name, user.email, 
+                    user_profile.contact, city.city_name, 
+                    user_profile.imageUrl as imgurl
+                FROM user 
+                JOIN user_profile ON user.id = user_profile.user_id
+                JOIN city ON city.id = user_profile.city_id
+                WHERE user.created_at >= ?
+            ", [$oneMonthAgo]);
+            // Generate and download the PDF
+            $pdf = PDF::loadView("Myadmin.Reports.PDF_newUserRegistration", ['users' => $users]);
+            return $pdf->download("NewRegistration.pdf");
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error("Error generating PDF: " . $e->getMessage());
+
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to generate PDF. Please try again later.');
+        }
     }
+
 
     public function newJobListing(){
         if(session("admin_login")){

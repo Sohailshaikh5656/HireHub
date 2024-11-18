@@ -52,7 +52,7 @@
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between">
                                 <h4 class="card-title">All New User </h4>
-                                <a class="btn btn-primary">Download PDF</a>
+                                <a class="btn btn-primary" href="/Myadmin/PDF_newUserRegistration">Download PDF</a>
                             </div>
                         </div>
                      

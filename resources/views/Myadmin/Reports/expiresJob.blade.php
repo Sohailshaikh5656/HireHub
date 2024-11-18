@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>HireHub | Admin - All Sub job</title>
+    <title>HireHub | Admin - Expire Sub job</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset ('admin_mat/assets/vendors/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css')}}">
@@ -54,7 +54,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between">
-                                <h4 class="card-title">Recent Job Posting </h4>
+                                <h4 class="card-title">Expire Job Posting </h4>
                                 <a class="btn btn-primary" href="/Myadmin/PDF_expiresJob">Download PDF</a>
                             </div>
                         </div>
