@@ -240,8 +240,27 @@ button{
                                         <li>{{ $error }}</li>
                                     @endforeach
                                 </ul>
+         
+
                             </div>
                             @endif
+                            @if  (session('error'))
+                                <div class="alert alert-danger"> 
+                                    <li>Password Not matched !</li>
+                                    @php
+                                        Session(["error"=>false]);
+                                    @endphp
+                                </div>
+                            @endif
+                            @if  (session('error1'))
+                            <div class="alert alert-danger"> 
+                                <li>Email Already Exits !</li>
+                                @php
+                                    Session(["error1"=>false]);
+                                @endphp
+                            </div>
+                        @endif
+                            
                             <h1 class="text-center1" style="color:#fff;">Registration Form</h1>
                             <!-- Progress Bar -->
                             <div class="progressbar1">

@@ -30,8 +30,11 @@ use App\Http\Controllers\CompanyControllers\CompanyDashboardController;
 use App\Http\Controllers\CompanyControllers\CompanyManageJobPosting;
 use App\Http\Controllers\CompanyControllers\CompanyProfileControllers;
 
-//PDF Controller
+//Mail Controller
 use App\Http\Controllers\PDFController;
+
+//PDF Controller
+use App\Http\Controllers\MailControllers;
 
 //AJAX Controller
 use App\Http\Controllers\AjaxImpControllers;
@@ -240,6 +243,30 @@ Route::group(['middleware' => ['web']], function () {
     Route::get("user/companySearch/{id}",[_AgencyController::class,"companySearch"]);
     Route::post("user/SearchAgencies",[_AgencyController::class,"SearchAgencies"])->name("SearchAgencies");
 
+    Route::get("user/userForgetPasswordForm",[UserControllers::class,"userForgetPasswordForm"]);
+    Route::get("user/OTPEnter",[UserControllers::class,"OTPEnter"]);
+    Route::post("user/userOTPChk",[UserControllers::class,"userOTPChk"])->name("userOTPChk");
+    Route::post("user/userUpdatePassword",[UserControllers::class,"userUpdatePassword"])->name("userUpdatePassword");
+    Route::get("user/OTPRefersh",[UserControllers::class,"OTPRefersh"]);
+
+
+
+
+    //Mail 
+    Route::post("user/userForgetPasswordEmail",[UserControllers::class,"userForgetPasswordEmail"])->name("userForgetPasswordEmail");
+    Route::post("user/agencyForgetPasswordEmail",[_AgencyController::class,"agencyForgetPasswordEmail"])->name("agencyForgetPasswordEmail");
+
+
+    
+    Route::get("user/agencyForgetPasswordForm",[_AgencyController::class,"agencyForgetPasswordForm"]);
+    Route::get("user/agencyOTPEnter",[_AgencyController::class,"agencyOTPEnter"]);
+    Route::post("user/agencyOTPChk",[_AgencyController::class,"agencyOTPChk"])->name("agencyOTPChk");
+    Route::get("user/agencyOTPRefersh",[_AgencyController::class,"agencyOTPRefersh"]);
+    Route::post("user/agencyUpdatePassword",[_AgencyController::class,"agencyUpdatePassword"])->name("agencyUpdatePassword");
+    // -- this route for testing
+    Route::get("user/send-mail",[MailControllers::class,"sendEmail"]);
+    
+
     //Route for PDF View
     Route::get("/pdf/view",[PDFController::class,'pdfView'])->name("pdf.view");
     //Route to convert PDF
@@ -259,6 +286,7 @@ Route::group(['middleware' => ['web']], function () {
 
     //Ajax Contrillers
     // web.php
+    Route::view("/user/dummyResume","ResumeTemplate.test");
     Route::get('/get-cities/{stateId}', [AjaxImpControllers::class, 'getCities']);
     Route::get('/get-sub_job/{jobId}', [AjaxImpControllers::class, 'getSubJob']);
 

@@ -54,6 +54,16 @@
                         </ul>
                     </div>
                       @endif
+                      @if (session('error'))
+                      <div class="alert alert-danger">
+                        <ul>
+                          <li>{{session("error")}}</li>
+                          @php
+                          session(['error'=>false]);
+                          @endphp
+                        </ul>
+                    </div>
+                      @endif
                       <h4 class="card-title">Accept / Reject</h4>
                       <div class="table-responsive">
                         <table class="table">

@@ -218,10 +218,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h1 class="text-white font-weight-bold">Login Page</h1>
+                    <h1 class="text-white font-weight-bold">User Forget Password Page</h1>
                     <div class="custom-breadcrumbs">
                         <a href="/user/Home">Home</a> <span class="mx-2 slash">/</span>
-                        <span class="text-white"><strong>User Login Page</strong></span>
+                        <span class="text-white"><strong>User Forget Password Page</strong></span>
                     </div>
                 </div>
             </div>
@@ -231,7 +231,7 @@
     <section class="site-section" style="background-image: url('{{ asset('user_mat/images/bk1.jpg') }}');">
         
                         {{-- <h2 class="mb-4" style="color: #fff;">Register To Hire Hub</h2> --}}
-                        <form action="/user/userAuthChk" class="form1" method="post">
+                        <form action="/user/userForgetPasswordEmail" class="form1" method="post">
                             @csrf
                             @if ($errors->any())
                             <div class="alert alert-danger">
@@ -264,7 +264,7 @@
                                 </ul>
                             </div>
                             @endif
-                            <h1 class="text-center1" style="color:#fff;">User Login Page</h1>
+                            <h1 class="text-center1" style="color:#fff;">User Forget Password Page</h1>
                             <!-- Progress Bar -->
                             {{-- <div class="progaessbar1">
                                 <div class="progress1" id="progress1"></div>
@@ -282,15 +282,12 @@
                                     <label for="email1">Email</label>
                                     <input type="email" name="email" id="username1">
                                 </div>
+                                
                                 <div class="input-group1">
-                                    <label>Password</label>
-                                    <input type="password" name="password" id="password1">
-                                </div>
-                                <div class="input-group1">
-                                    <a class="forget" href="userForgetPasswordForm">Forget Passord ?</a>
+                                    <a class="forget" href="login">Login ?</a>
                                 </div>
                                 <div class="btns-group1">
-                                    <button type="submit" value="Log In" class="btn btn-primary p-3" >Log In</button>
+                                    <button type="submit" value="Log In" class="btn btn-primary p-3" >Submit</button>
                                 </div>
 
                                 <div class="input-group1">

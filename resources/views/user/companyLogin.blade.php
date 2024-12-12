@@ -286,7 +286,7 @@
                                     <input type="password" name="password" id="password1">
                                 </div>
                                 <div class="input-group1">
-                                    <a class="forget" href="">Forget Passord ?</a>
+                                    <a class="forget" href="/user/agencyForgetPasswordForm">Forget Passord ?</a>
                                 </div>
                                 <div class="btns-group1">
                                     <button type="sybmit" value="Log In" class="btn btn-primary p-3" >Login</button>

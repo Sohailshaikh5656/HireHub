@@ -11,7 +11,11 @@ use App\Models\agency_certificate;
 use App\Models\login_atemp;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\sendMail;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+
 
 class _AgencyController extends Controller
 {
@@ -189,5 +193,125 @@ class _AgencyController extends Controller
         $agencies = agency::all();
      return view("user.searchAgencies",['data'=>$data,'cities'=>$cities,'agencies'=>$agencies]);
 
+    }
+
+
+    public function agencyForgetPasswordEmail(Request $req){
+        $validateData = $req->validate(['email'=>"required|string"]);
+        if($validateData){
+            $user = agency::where("email",$validateData['email'])->first();
+            if($user){
+                $code = rand(1000,9999);
+                Session::put('code', $code); // Set the session variable
+                Session::put('code_expiration', now()->addMinutes(10)); 
+                Session(["authAgencyEmail" => $user->email]); //email stores in Session
+                $to=$user->email;
+                $msg =  $msg="<p>We received a request to reset the password associated with your account. Please use the One-Time Password (OTP) below to verify your request and proceed with resetting your password:</p>
+                        <p></p>                    
+                    <p>Your OTP : <b>".$code."</b></p>
+                    <p></p>
+                    <p>This OTP is valid for the next 10 minutes.\nIf you did not request a password reset, please ignore this email or contact our support team if you suspect any unauthorized activity.</p>";
+                    $subject = "Forget Password !";
+                    // Headers for HTML email
+                    $headers = "MIME-Version: 1.0" . "\r\n";
+                    $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
+                    $this->SendEmail($to, $msg, $subject,$headers);
+                return redirect("user/agencyOTPEnter");
+            }else{
+                return redirect("/user/agencyForgetPasswordForm")->with("error","Email not Found !");
+            }
+        }
+    }
+
+    //Send mail Fuc 
+    public function SendEmail($to,$msg,$subject){
+        Mail::to($to)->send(new sendMail($msg, $subject));
+    }
+
+    //form
+    public function agencyForgetPasswordForm(){
+
+        return view("user.agencyForgetPassword");
+    }
+
+    //OTP Form
+
+    public function agencyOTPEnter(){
+        if(session('authAgencyEmail')){
+            return view("user.agencyOTPEnter");
+        }else{
+            return redirect("/user/companyLogin");
+        }
+    }
+
+    public function agencyOTPChk(Request $req){
+        $validateData = $req->validate([
+            'OTP'=>"required|digits:4"
+        ]);
+
+        if($validateData){
+            $trueOtp = (int) Session('code');
+            if($validateData['OTP']==$trueOtp){
+                return view("user.agencyChangePassword");
+            }
+            else{
+                return redirect("/user/agencyOTPEnter")->with("error","Enter valid OTP, Your OTP Incorrect");
+            }
+        }else{
+            return redirect("/user/agencyOTPEnter")->with("error","Enter valid OTP, Your OTP Incorrect");
+        }
+    }
+
+    public function agencyOTPRefersh(Request $request)
+    {
+        $code = rand(1000, 9999);
+        Session::put('code', $code); // Set the session variable
+        Session::put('code_expiration', now()->addMinutes(10)); 
+        Session::put('otp_lock_time', now()->addSeconds(45));
+
+        $user = Session::get('authAgencyEmail'); // Retrieve the stored email
+        if (!$user) {
+            return response()->json(['error' => 'User email not found.'], 400);
+        }
+
+        $to = $user;
+        $msg =  $msg="<p>We received a request to reset the password associated with your account. Please use the One-Time Password (OTP) below to verify your request and proceed with resetting your password:</p>
+                        <p></p>                    
+                    <p>Your OTP : <b>".$code."</b></p>
+                    <p></p>
+                    <p>This OTP is valid for the next 10 minutes.\nIf you did not request a password reset, please ignore this email or contact our support team if you suspect any unauthorized activity.</p>";
+        $subject = "Forget Password !";
+         // Headers for HTML email
+         $headers = "MIME-Version: 1.0" . "\r\n";
+         $headers .= "Content-Type: text/html; charset=UTF-8" . "\r\n";
+        $this->SendEmail($to, $msg, $subject,$headers);
+
+        return response()->json(['lockTime' => 45, 'message' => 'OTP sent successfully.']);
+    }
+
+
+    public function agencyUpdatePassword(Request $req){
+        if(Session('authAgencyEmail')!=null && Session::has("code") && Session::get("code_expiration")>now()){
+            $validateData = $req->validate([
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^a-zA-Z\d]).+$/'
+                ],
+                'confirmPassword'=>"required|string",
+            ]);
+            if($req->input("password")===$req->input("confirmPassword")){
+                $email = session("authAgencyEmail");
+                $updateUserPassword = agency::where('email',$email)->first();
+                $updateUserPassword->password = bcrypt($validateData['password']);
+                $updateUserPassword->save();
+                return redirect("/user/companyLogin")->with("error","Password has been Updated !");
+            }else{
+                return view("user.agencyChangePassword")->with("error","Password not matched !");
+            }
+        }else{
+            return redirect("/user/agencyOTPEnter")->with("error","Something Went Wrong !");
+        }
     }
 }
