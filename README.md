@@ -74,6 +74,8 @@ php artisan migrate
 # Step 7: Serve the application
 php artisan serve
 
+📜 License
+This project is open-source and free to use for learning and educational purposes.
 
 🙋‍♂️ Author
 Shaikh Sohel
